@@ -109,7 +109,6 @@
     <ClCompile Include="playstate.c" />
     <ClCompile Include="SDLFeatureTests.c" />
     <ClCompile Include="sprite.c" />
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="text.c" />
     <ClCompile Include="texture.c" />
   </ItemGroup>
