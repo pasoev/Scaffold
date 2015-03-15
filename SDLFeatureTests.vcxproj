@@ -14,6 +14,7 @@
     <ProjectGuid>{337E834E-C1EF-4FA6-B7A8-E6304DD2E851}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SDLFeatureTests</RootNamespace>
+    <ProjectName>Scaffold</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
