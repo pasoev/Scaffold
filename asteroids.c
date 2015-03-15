@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
 
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) >= 0) {
 	  /* Dynamically set the windos size to full screen*/
-    /* queryResolution(&WINDOW_W, &WINDOW_H); */
+    queryResolution(&WINDOW_W, &WINDOW_H);
     SDL_CreateWindowAndRenderer(WINDOW_W, WINDOW_H,
 				SDL_WINDOW_SHOWN,
 				&window, &renderer);

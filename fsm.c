@@ -51,11 +51,19 @@ void popAllStates(struct GameStateMachine *fsm) {
 		/* Get the second to last element. */
 		ListElmt *iter = list_head(fsm->gameStates);
 		struct GameState * curState;
-		for (iter = list_head(fsm->gameStates); iter != NULL; iter = list_next(iter)){
+		/*for (iter = list_head(fsm->gameStates); iter != NULL; iter = list_next(iter)){
 			curState = (struct GameState*) list_data(iter);
 			if (curState->onExit()) {
 				list_rem_next(fsm->gameStates, NULL, (void*)&curState);
 			}
+		}*/
+		iter = list_head(fsm->gameStates);
+		while (iter != NULL){
+			curState = (struct GameState*) list_data(iter);
+			if (curState->onExit()){
+				list_rem_next(fsm->gameStates, NULL, (void*)&curState);
+			}
+			iter = iter->next;
 		}
 	}
 }
