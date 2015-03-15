@@ -88,7 +88,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="asteroids.h" />
+    <ClInclude Include="scaffold.h" />
     <ClInclude Include="gamestate.h" />
     <ClInclude Include="geometry.h" />
     <ClInclude Include="list.h" />
@@ -100,7 +100,7 @@
     <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="asteroids.c" />
+    <ClCompile Include="scaffold.c" />
     <ClCompile Include="fsm.c" />
     <ClCompile Include="gameoverstate.c" />
     <ClCompile Include="geometry.c" />

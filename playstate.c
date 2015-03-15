@@ -94,7 +94,6 @@ void playUpdate(void *fsm_param) {
 		enemyVel.y = -enemyVel.y;
 	}
 
-
 	/* The enemy needs to check if you're near */
 	double distance = Vec2dLen(subtract(player->pos, enemyPos));
 	if (distance <= PROXIMITY + player->w / 2 + enemyRadius){

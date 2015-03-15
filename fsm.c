@@ -1,8 +1,14 @@
 #include "gamestate.h"
 
+int initFSM(List *states, void(*destroy)(void*), struct GameStateMachine **fsm){
+	list_init(states, destroy);
+	*fsm = &(struct GameStateMachine){
+		states, &pushState, &changeState, &popState, &popAllStates
+	};
+}
+
 void pushState(struct GameStateMachine *fsm, struct GameState *state) {
 	list_ins_next(fsm->gameStates, list_tail(fsm->gameStates), state);
-	/* struct GameState *curState = (struct GameState*) list_data(list_tail(fsm->gameStates)); */
 	state->onEnter(state);
 }
 
@@ -14,7 +20,6 @@ void changeState(struct GameStateMachine *fsm, struct GameState *state) {
 		}
 	}
 	popState(fsm);
-	/* Push back the new state */
 	pushState(fsm, state);
 }
 

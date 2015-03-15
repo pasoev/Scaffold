@@ -24,9 +24,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="asteroids.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gamestate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -46,6 +43,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scaffold.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,10 +80,10 @@
     <ClCompile Include="texture.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="asteroids.c">
+    <ClCompile Include="list.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="list.c">
+    <ClCompile Include="scaffold.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

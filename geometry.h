@@ -15,10 +15,10 @@ struct Vec2d{
 
 #define Vec2dLen(v) (sqrt(v.x * v.x + v.y * v.y))
 
-struct Vec2d add(struct Vec2d, struct Vec2d);
-struct Vec2d multByScalar(struct Vec2d v, float scalar);
+struct Vec2d add(struct Vec2d v1, struct Vec2d v2);
+struct Vec2d multByScalar(struct Vec2d v, int scalar);
 struct Vec2d subtract(struct Vec2d v1, struct Vec2d v2);
-struct Vec2d divideByScalar(struct Vec2d v, float scalar);
+struct Vec2d divideByScalar(struct Vec2d v, int scalar);
 struct Vec2d normalize(struct Vec2d v);
 
 

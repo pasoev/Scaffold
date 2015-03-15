@@ -25,6 +25,8 @@ struct GameStateMachine {
   void (*popAllStates)(struct GameStateMachine *fsm);
 };
 
+initFSM(List *states, void(*destroy)(void*), struct GameStateMachine** fsm);
+
 enum button_state {
     MOUSE_OUT = 0,
     MOUSE_OVER = 1,
