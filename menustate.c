@@ -26,7 +26,7 @@ void toPlayMode(struct GameStateMachine *fsm) {
 
 void exitFromMenu(struct GameStateMachine *fsm) {
 	// fsm->popAllStates(fsm);
-	fsm->popState(fsm);
+	fsm->popAllStates(fsm);
 }
 
 void menuUpdate(void *fsm_param) {

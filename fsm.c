@@ -13,11 +13,9 @@ void changeState(struct GameStateMachine *fsm, struct GameState *state) {
 			return;
 		}
 	}
-
 	popState(fsm);
 	/* Push back the new state */
 	pushState(fsm, state);
-
 }
 
 void popState(struct GameStateMachine *fsm) {
@@ -29,7 +27,6 @@ void popState(struct GameStateMachine *fsm) {
 				iter = list_next(iter);
 			}
 		}
-
 		struct GameState * curState;
 		if (list_next(iter) == NULL) {
 			curState = (struct GameState*) list_data(iter);
@@ -47,25 +44,9 @@ void popState(struct GameStateMachine *fsm) {
 }
 
 void popAllStates(struct GameStateMachine *fsm) {
-	if (list_size(fsm->gameStates) != 0) {
-		/* Get the second to last element. */
-		ListElmt *iter = list_head(fsm->gameStates);
-		struct GameState * curState;
-		/*for (iter = list_head(fsm->gameStates); iter != NULL; iter = list_next(iter)){
-			curState = (struct GameState*) list_data(iter);
-			if (curState->onExit()) {
-				list_rem_next(fsm->gameStates, NULL, (void*)&curState);
-			}
-		}*/
-		iter = list_head(fsm->gameStates);
-		while (iter != NULL){
-			curState = (struct GameState*) list_data(iter);
-			if (curState->onExit()){
-				list_rem_next(fsm->gameStates, NULL, (void*)&curState);
-			}
-			iter = iter->next;
-		}
+	int numStates = fsm->gameStates->size;
+	int i = 0;
+	for (i = 0; i < numStates; i++){
+		fsm->popState(fsm);
 	}
 }
-
-

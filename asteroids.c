@@ -43,9 +43,7 @@ void queryResolution(int *x, int *y) {
   SDL_DisplayMode current;
   int i = 0;
   for (i = 0; i < SDL_GetNumVideoDisplays(); ++i) {
-
     int should_be_zero = SDL_GetCurrentDisplayMode(i, &current);
-
     if (should_be_zero != 0) {
       /* In case of error... */
       printf("Could not get display mode for video display #%d: %s",

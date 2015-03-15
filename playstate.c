@@ -55,7 +55,7 @@ void togameoverMode(struct GameStateMachine *fsm) {
     GAME_STATE_GAMEOVER,
     thisState->renderer
   };
-  fsm->pushState(fsm, &gameoverState);
+  fsm->changeState(fsm, &gameoverState);
 }
 
 void playerUpdate(void *playerParam){
