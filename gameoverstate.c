@@ -61,7 +61,6 @@ void gameoverDraw(struct GameState *state) {
   for (i = 0; i < 2; i++) {
     DrawImageFrame(menus[i].texture, menus[i].pos.x, menus[i].pos.y, menus[i].w / 3, menus[i].h, 1, menus[i].currentFrame, 0, SDL_FLIP_NONE, state->renderer);
   }
-  SDL_RenderPresent(state->renderer);
 }
 
 

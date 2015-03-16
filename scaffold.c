@@ -21,16 +21,16 @@ int init(SDL_Window **window, SDL_Renderer **renderer){
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) >= 0) {
 		/* Dynamically set the windos size to full screen*/
 		queryResolution(&WINDOW_W, &WINDOW_H);
-		SDL_CreateWindowAndRenderer(WINDOW_W, WINDOW_H,
-			SDL_WINDOW_SHOWN, window, renderer);
-		SDL_SetWindowTitle(*window, PROGRAM_NAME);
-	}
-
-	if (window != 0) {
-		success = 1;
-	}
-	else {
-		puts(SDL_GetError());
+		*window = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			WINDOW_W, WINDOW_H, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
+		if (*window == NULL){
+			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
+			success = -2;
+		}
+		else{
+			*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			success = 1;
+		}
 	}
 	return success;
 }
@@ -84,34 +84,33 @@ int main(int argc, char** argv) {
 	List states;
 	struct GameStateMachine *fsm;
 
-	if (init(&window, &renderer)){
-		running = 1;
+	if (init(&window, &renderer) < 0){
+		return -1;
 	}
-	/* Manage states*/
-	initFSM(&states, destroy, &fsm);
-
+	else{
+		/* Manage states*/
+		initFSM(&states, destroy, &fsm);
+	}
 	struct GameState menuState = {
 		&menuUpdate, &menuDraw, &menuOnEnter, &menuOnExit,
 		GAME_STATE_MENU, renderer
 	};
 
-	fsm->changeState(fsm, &menuState);
+	fsm->pushState(fsm, &menuState);
 
-	while (running) {
-		if (list_size(fsm->gameStates) > 0){
-			struct GameState *currentState = (struct GameState*) (list_tail(fsm->gameStates)->data);
-			processEvents();
-			currentState->update(fsm);
-			SDL_RenderClear(renderer);
-			currentState->render(currentState);
-			SDL_RenderPresent(renderer);
-		}
-		else{
-			/* All states have been popped off. Quit */
-			running = 0;
-			quit(window, renderer);
-		}
+	while (list_size(fsm->gameStates) > 0 && running){
+
+		struct GameState *currentState = (struct GameState*) (list_tail(fsm->gameStates)->data);
+		processEvents();
+		currentState->update(fsm);
+		SDL_RenderClear(renderer);
+		currentState->render(currentState);
+		SDL_RenderPresent(renderer);
 	}
+
+	quit(window, renderer);
+
+
 
 	return (EXIT_SUCCESS);
 }

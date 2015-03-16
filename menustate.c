@@ -69,7 +69,6 @@ void menuDraw(struct GameState *state) {
 			menus[i].currentFrame,
 			0, SDL_FLIP_NONE, state->renderer);
 	}
-	SDL_RenderPresent(state->renderer);
 }
 
 int menuOnEnter(struct GameState *state) {
