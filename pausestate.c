@@ -86,7 +86,6 @@ int pauseOnEnter(struct GameState *state) {
     menus[1].currentFrame = MOUSE_OUT; /* start at frame 0 */
 
     return status;
-    return 0;
 }
 
 int pauseOnExit(void) {

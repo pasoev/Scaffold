@@ -67,7 +67,7 @@ void playerUpdate(void *playerParam){
 
 	/* Update player */
 	player->vel = subtract(mousePos, player->pos);
-	player->vel = divideByScalar(player->vel, 50);
+	player->vel = divideByScalar(player->vel, 10);
 	player->pos = add(player->pos, player->vel);
 }
 
