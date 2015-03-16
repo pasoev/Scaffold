@@ -6,21 +6,12 @@
 #ifndef GEOMETRY_H
 #include "geometry.h"
 #endif
-
 #include "sprite.h"
 
 #define PROXIMITY 300
 #define COLLISION 2
 
 struct Sprite *player;
-
-/*
- * Now a Sprite structure
- static SDL_Texture *playerTexture;
- static int playerW, playerH;
- static struct Vec2d playerPos, playerVel;
-
- */
 
 static struct Vec2d enemyPos, enemyVel;
 static Sint16 enemyRadius;
