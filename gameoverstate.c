@@ -1,7 +1,7 @@
 #include "gamestate.h"
 #include "texture.h"
 #include "geometry.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <stdio.h>
 
 struct Menu menus[2];

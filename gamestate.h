@@ -1,7 +1,8 @@
 #ifndef _GAMESTATE_H
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "list.h"
 #include "geometry.h"
+#include <stdlib.h>
 
 #define GAME_STATE_PLAY 0
 #define GAME_STATE_PAUSE 1
@@ -25,7 +26,7 @@ struct GameStateMachine {
   void (*popAllStates)(struct GameStateMachine *fsm);
 };
 
-initFSM(List *states, void(*destroy)(void*), struct GameStateMachine** fsm);
+int initFSM(List *states, void(*destroy)(void*), struct GameStateMachine** fsm);
 
 enum button_state {
     MOUSE_OUT = 0,

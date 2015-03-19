@@ -8,7 +8,7 @@
 #ifndef SCAFFOLD_H
 #define	SCAFFOLD_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 int init(SDL_Window **window, SDL_Renderer **renderer);
 void processEvents(void);
 void destroy(void*);
