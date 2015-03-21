@@ -15,7 +15,7 @@ gameoverstate.o : gamestate.h texture.h geometry.h
 geometry.o : geometry.h
 menustate.o : gamestate.h texture.h geometry.h
 pausestate.o : gamestate.h texture.h geometry.h
-playstate.o : gamestate.h texture.h geometry.h sprite.h
+playstate.o : gamestate.h text.h texture.h geometry.h sprite.h
 scaffold.o : list.h scaffold.h gamestate.h
 fsm.o : gamestate.h geometry.h list.h
 sprite.o : sprite.h geometry.h

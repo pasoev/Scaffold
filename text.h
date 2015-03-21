@@ -1,7 +1,7 @@
 #ifndef _TEXT_H
-
+#ifndef TEXTURE_H
 #include "texture.h"
-
+#endif
 
 #include <SDL2/SDL_ttf.h>
 

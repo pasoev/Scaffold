@@ -104,8 +104,16 @@ int main(int argc, char** argv) {
     &menuUpdate, &menuDraw, &menuOnEnter, &menuOnExit,
     GAME_STATE_MENU, renderer
   };
+
+  /* Used for debugging the play mode */
+
+  struct GameState playState = {
+    &playUpdate, &playDraw, &playOnEnter, &playOnExit,
+    GAME_STATE_PLAY, renderer
+  };
   
-  fsm->pushState(fsm, &menuState);
+  
+  fsm->pushState(fsm, &playState);
 
   while(list_size(fsm->gameStates) > 0 && running){
     struct GameState *currentState = (struct GameState*) (list_tail(fsm->gameStates)->data);
