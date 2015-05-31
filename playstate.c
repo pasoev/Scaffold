@@ -10,15 +10,17 @@
 #include "geometry.h"
 #endif
 #include "sprite.h"
+#include "player.h"
 
 #define PROXIMITY 300
 #define COLLISION 2
 
 int globalTime = 0;
 
-struct Sprite *player;
-int score = 0;
-int lives = 3;
+extern struct Sprite *player;
+
+extern int playerScore;
+extern int playerLives;
 
 static struct Vec2d enemyPos, enemyVel;
 static Sint16 enemyRadius;
@@ -93,43 +95,6 @@ void playerUpdateMouse(void *playerParam){
      player->vel = divideByScalar(player->vel, 10);
      player->pos = add(player->pos, player->vel);
   */
-
-}
-
-void playerUpdate(void *playerParam){
-  /* Player update logic */
-  struct Sprite *player = (struct Sprite*) playerParam;
-
-  /* Update player using KEYBOARD */
-  if(!player->shooting && !player->vel.y){
-    if(isKeyDown(SDL_SCANCODE_LEFT)){
-      player->vel = (struct Vec2d){-3, 0};
-      player->pos = add(player->pos, player->vel);
-      player->walking = 1;
-
-      if(globalTime % 6 == 0){
-	player->currentFrame++;
-	player->currentFrame %= 4;
-      }
-    }else if(isKeyDown(SDL_SCANCODE_RIGHT)){
-      player->vel = (struct Vec2d){3, 0};
-      player->walking = 1;
-      player->pos = add(player->pos, player->vel);
-
-      if(globalTime % 6 == 0){
-	player->currentFrame++;
-	player->currentFrame %= 4;
-      }
-    }else{
-      player->walking = 0;
-      player->currentFrame = 4;
-    }
-  }
-
-  if(isKeyDown(SDL_SCANCODE_UP) && !(player->vel).y)
-    {
-      player->vel.y =-16;
-    }
 }
 
 void playUpdate(void *fsm_param) {
@@ -183,8 +148,8 @@ void playUpdate(void *fsm_param) {
   /* Check collision */
   if (distance <= COLLISION + player->w / 2 + enemyRadius){
     /* enemyPos = (struct Vec2d){WINDOW_W / 2, WINDOW_H / 2}; */
-    if(lives > 0){
-      lives--;
+    if(playerLives > 0){
+      playerLives--;
       /* throw the player away from the enemy */
       player->pos = add(player->pos,
 			add(subtract(enemyPos, player->pos), (struct Vec2d){100, 0}));
@@ -197,8 +162,8 @@ void playUpdate(void *fsm_param) {
 void playDraw(struct GameState *state) {
   SDL_SetRenderDrawColor(state->renderer, 230, 120, 20, 255);
   renderBackground(state);
-  renderScore(state, score);
-  renderLives(state, lives);
+  renderScore(state, playerScore);
+  renderLives(state, playerLives);
   /* DrawImageFrame(player->texture, player->pos.x, player->pos.y, player->w,
      player->h, 1, player->currentFrame, 0, flip, state->renderer); */
 
@@ -225,7 +190,7 @@ int initBackground(struct GameState *game){
 int playOnEnter(struct GameState *state) {
   /* */
   int success = -1;
-  lives = 3;
+  playerLives = 3;
   initFonts();
      
   /* enter the player */
