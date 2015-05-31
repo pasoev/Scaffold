@@ -1,5 +1,4 @@
 #include <SDL2/SDL.h>
-
 #include "gamestate.h"
 #ifndef TEXTURE_H
 #include "texture.h"
