@@ -18,6 +18,7 @@
 int globalTime = 0;
 
 extern struct Sprite *player;
+extern List *bullets;
 
 extern int playerScore;
 extern int playerLives;
@@ -38,6 +39,7 @@ int SCORE_LOC_Y = CAPTION_OFFSET;
 
 TTF_Font *themeFont = NULL;
 SDL_Texture *backgroundTexture = (void*)NULL;
+extern SDL_Texture *bulletTexture;
 
 static void renderScore(struct GameState *game, int score){
   char scoreTxt[10];
@@ -168,7 +170,8 @@ void playDraw(struct GameState *state) {
      player->h, 1, player->currentFrame, 0, flip, state->renderer); */
 
   drawSprite(player, state->renderer);
-
+  drawBullets(bullets, state->renderer);
+  
   /* and the enemy */
   filledCircleColor(state->renderer, enemyPos.x, enemyPos.y, enemyRadius, 0xFFFF00FF);
   SDL_SetRenderDrawColor(state->renderer, 230, 120, 20, 255);
@@ -189,10 +192,10 @@ int initBackground(struct GameState *game){
 
 int playOnEnter(struct GameState *state) {
   /* */
-  int success = -1;
+  int success = 0;
   playerLives = 3;
   initFonts();
-     
+  
   /* enter the player */
   player = malloc(sizeof(struct Sprite));
   if (player != NULL){
@@ -206,17 +209,24 @@ int playOnEnter(struct GameState *state) {
     SDL_QueryTexture(player->texture, NULL, NULL, &imgW, &imgH);
     player->w = imgW / player->numFrames;
     player->h = imgH;
-
-    /* And the enemy */
-    enemyPos.x = 400;
-    enemyPos.y = 600;
-    enemyVel.x = 1;
-    enemyVel.y = 1;
-    enemyRadius = 30;
-    enemyChasing = 0;
-
-    success = 0;
+  }else{
+    success = -1;
   }
+
+  bullets = malloc(sizeof(List));
+  list_init(bullets, NULL);
+  LoadImage("graphics/bullet.png", (SDL_Texture **)&bulletTexture, state->renderer);
+  
+  /* And the enemy */
+  enemyPos.x = 400;
+  enemyPos.y = 600;
+  enemyVel.x = 1;
+  enemyVel.y = 1;
+  enemyRadius = 30;
+  enemyChasing = 0;
+
+  success = 0;
+  
   initBackground(state);
   return success;
 }

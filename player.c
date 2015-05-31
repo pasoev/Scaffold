@@ -1,9 +1,7 @@
-#include <SDL2/SDL.h>
 #include "gamestate.h"
 #ifndef TEXTURE_H
 #include "texture.h"
 #endif
-#include "text.h"
 #ifndef GEOMETRY_H
 #include "geometry.h"
 #endif
@@ -26,10 +24,77 @@ extern int WINDOW_H;
 
 extern int isKeyDown(SDL_Scancode);
 
+/* Bullets */
+struct Bullet{
+  struct Vec2d pos;
+  struct Vec2d vel;
+};
+
+List *bullets;
+SDL_Texture *bulletTexture = (void *)NULL;
+
+void makeBullet(int x, int y, int dx){
+  struct Bullet *bullet = malloc(sizeof(struct Bullet));
+  bullet->pos.x = x;
+  bullet->pos.y = y;
+  bullet->vel.x = dx;
+  bullet->vel.y = 0;
+  
+  list_ins_next(bullets, list_tail(bullets), bullet);
+}
+
+void shoot(struct Sprite* sprite){
+  if(player->currentFrame == 4){
+    player->currentFrame = 5;
+  }else{
+    player->currentFrame = 4;
+  }
+  int x = 0, y = 0, dx = 0;
+  if(player->vel.x < 0){
+    x = player->pos.x + 5;
+    y = player->pos.y + 20;
+  }else{
+    x = player->pos.x + 35;
+    y = player->pos.y + 20;
+  }
+  dx = player->vel.x;
+  makeBullet(x, y, dx);
+  printf("Shooting.");
+  player->shooting = 1;
+}
+
+void updateBullets(List *bullets){
+  if(list_size(bullets) > 0){
+    ListElmt *elmt = list_head(bullets);
+    struct Bullet *firstBullet = list_data(elmt);
+    firstBullet->pos = add(firstBullet->pos, firstBullet->vel);
+    
+    if(firstBullet->pos.x > WINDOW_W || firstBullet->pos.x < 0){
+      list_rem_next(bullets, NULL, &firstBullet);
+      printf("Bullet disappeared. %d remaining.\n", list_size(bullets));
+      if(firstBullet != NULL){
+	free(firstBullet);
+      }
+    }
+  
+    for(elmt = list_head(bullets); elmt != NULL && !list_istail(elmt); elmt = list_next(elmt)){
+      struct Bullet *nextBullet = list_data(list_next(elmt));
+      nextBullet->pos = add(nextBullet->pos, nextBullet->vel);
+
+      if(nextBullet->pos.x > WINDOW_W || nextBullet->pos.x < 0){
+	list_rem_next(bullets, elmt, &nextBullet);
+	printf("Bullet disappeared. %d remaining.\n", list_size(bullets));
+	if(nextBullet != NULL){
+	  free(nextBullet);
+	}
+      }
+    }
+  }
+}      
+
 void playerUpdate(void *playerParam){
   /* Player update logic */
   struct Sprite *player = (struct Sprite*) playerParam;
-
   /* Update player using KEYBOARD */
   if(!player->shooting && !player->vel.y){
     if(isKeyDown(SDL_SCANCODE_LEFT)){
@@ -59,4 +124,23 @@ void playerUpdate(void *playerParam){
     {
       player->vel.y =-16;
     }
+
+  if(isKeyDown(SDL_SCANCODE_SPACE)){
+    if(globalTime % 6 == 0){
+      shoot(player);
+    }else{
+      player->shooting = 0;
+      player->currentFrame = 4;
+    }
+  }
+
+  updateBullets(bullets);
+	
+}
+void drawBullets(List *bullets, SDL_Renderer *renderer){
+  ListElmt *elmt;
+  for(elmt = list_head(bullets); elmt != NULL; elmt = list_next(elmt)){
+    struct Bullet *bullet = (struct Bullet *)list_data(elmt);
+    DrawImage(bulletTexture, bullet->pos.x, bullet->pos.y, 8, 8, 0, SDL_FLIP_NONE, renderer );
+  }    
 }
