@@ -122,6 +122,7 @@ int main(int argc, char** argv) {
     SDL_RenderClear(renderer);
     currentState->render(currentState);
     SDL_RenderPresent(renderer);
+    SDL_Delay(20);
   }
   quit(window, renderer);
   return (EXIT_SUCCESS);

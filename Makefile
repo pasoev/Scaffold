@@ -2,7 +2,7 @@ PREFIX=/usr/
 CC=gcc
 W=-Wall -Wextra -Wstrict-prototypes -Wshadow -Wwrite-strings \
 -Wold-style-definition -Wredundant-decls -Wnested-externs \
--Wmissing-include-dirs
+-Wmissing-include-dirs -Wstrict-aliasing
 CFLAGS=-lSDL2 -lSDL2_image -lSDL2_gfx -lSDL2_ttf -lm -g $(W)
 objects = list.o fsm.o geometry.o sprite.o text.o texture.o scaffold.o menustate.o playstate.o pausestate.o gameoverstate.o
 
