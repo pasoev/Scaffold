@@ -59,7 +59,7 @@ void shoot(struct Sprite* sprite){
   }
   dx = player->vel.x;
   makeBullet(x, y, dx);
-  printf("Shooting.");
+  printf("Shooting.\n");
   player->shooting = 1;
 }
 
@@ -125,7 +125,7 @@ void playerUpdate(void *playerParam){
       player->vel.y =-16;
     }
 
-  if(isKeyDown(SDL_SCANCODE_SPACE)){
+  if(isKeyDown(SDL_SCANCODE_SPACE) && !player->walking){
     if(globalTime % 6 == 0){
       shoot(player);
     }else{

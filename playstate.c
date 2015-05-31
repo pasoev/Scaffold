@@ -104,7 +104,7 @@ void playUpdate(void *fsm_param) {
   struct GameStateMachine *fsm = (struct GameStateMachine*) fsm_param;
   if(player->vel.y){
     player->pos = add(player->pos, player->vel);
-    if(player->pos.y < 200){
+    if(player->pos.y < 100){
       player->pos.y = 300;
       player->vel.y = 0;
     }
