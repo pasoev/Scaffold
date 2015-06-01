@@ -5,5 +5,6 @@
 #include "list.h"
 #endif
 
+void destroyLedge(void *data);
 void initLedges(List *ledges, SDL_Renderer *renderer);
 void renderLedges(List *ledges, int n, SDL_Renderer *renderer);

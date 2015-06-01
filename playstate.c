@@ -100,13 +100,14 @@ void playerUpdateMouse(void *playerParam){
 }
 
 void playUpdate(void *fsm_param) {
-  globalTime++;
   struct GameStateMachine *fsm = (struct GameStateMachine*) fsm_param;
   if(player->vel.y){
     player->pos = add(player->pos, player->vel);
     if(player->pos.y < 100){
-      player->pos.y = 300;
-      player->vel.y = 0;
+      if(globalTime % 6 == 0){
+	player->pos.y = 300;
+	player->vel.y = 0;
+      }
     }
   }
 
@@ -160,6 +161,7 @@ void playUpdate(void *fsm_param) {
       toGameoverMode(fsm);
     }
   }
+  globalTime++;
 }
 
 void playDraw(struct GameState *state) {
@@ -206,14 +208,15 @@ int playOnEnter(struct GameState *state) {
     SDL_QueryTexture(player->texture, NULL, NULL, &imgW, &imgH);
     player->w = imgW / player->numFrames;
     player->h = imgH;
+    player->shooting = 0;
   }else{
     success = -1;
   }
 
   bullets = malloc(sizeof *bullets);
   list_init(bullets, NULL);
-  ledges = malloc(sizeof ledges);
-  list_init(ledges, NULL);  
+  ledges = malloc(sizeof *ledges);
+  list_init(ledges, destroyLedge);  
   LoadImage("graphics/bullet.png", &bulletTexture, state->renderer);
   LoadImage("graphics/bricks.png", &brickTexture, state->renderer);
   initLedges(ledges, state->renderer);
