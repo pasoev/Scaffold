@@ -7,6 +7,7 @@
 #endif
 #include "sprite.h"
 
+#define STEP_SIZE 6
 #define PROXIMITY 300
 #define COLLISION 2
 
@@ -44,6 +45,7 @@ void makeBullet(int x, int y, int dx){
 }
 
 void shoot(struct Sprite* sprite){
+  player->shooting = 1;
   if(player->currentFrame == 4){
     player->currentFrame = 5;
   }else{
@@ -57,10 +59,9 @@ void shoot(struct Sprite* sprite){
     x = player->pos.x + 35;
     y = player->pos.y + 20;
   }
-  dx = player->vel.x;
+  dx = player->vel.x * 1.5;
   makeBullet(x, y, dx);
   printf("Shooting.\n");
-  player->shooting = 1;
 }
 
 void updateBullets(List *bullets){
@@ -98,7 +99,7 @@ void playerUpdate(void *playerParam){
   /* Update player using KEYBOARD */
   if(!player->shooting && !player->vel.y){
     if(isKeyDown(SDL_SCANCODE_LEFT)){
-      player->vel = (struct Vec2d){-3, 0};
+      player->vel = (struct Vec2d){-STEP_SIZE, 0};
       player->pos = add(player->pos, player->vel);
       player->walking = 1;
 
@@ -107,7 +108,7 @@ void playerUpdate(void *playerParam){
 	player->currentFrame %= 4;
       }
     }else if(isKeyDown(SDL_SCANCODE_RIGHT)){
-      player->vel = (struct Vec2d){3, 0};
+      player->vel = (struct Vec2d){STEP_SIZE, 0};
       player->walking = 1;
       player->pos = add(player->pos, player->vel);
 
@@ -133,9 +134,6 @@ void playerUpdate(void *playerParam){
       player->currentFrame = 4;
     }
   }
-
-  updateBullets(bullets);
-	
 }
 void drawBullets(List *bullets, SDL_Renderer *renderer){
   ListElmt *elmt;

@@ -1,15 +1,14 @@
-#include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
 #include <stdio.h>
 #include "gamestate.h"
 #ifndef TEXTURE_H
-#include "texture.h"
 #endif
 #include "text.h"
 #ifndef GEOMETRY_H
 #include "geometry.h"
 #endif
 #include "sprite.h"
+#include "ledge.h"
 #include "player.h"
 
 #define PROXIMITY 300
@@ -19,7 +18,7 @@ int globalTime = 0;
 
 extern struct Sprite *player;
 extern List *bullets;
-
+extern List *ledges;
 extern int playerScore;
 extern int playerLives;
 
@@ -39,6 +38,7 @@ int SCORE_LOC_Y = CAPTION_OFFSET;
 
 TTF_Font *themeFont = NULL;
 SDL_Texture *backgroundTexture = (void*)NULL;
+extern SDL_Texture *brickTexture;
 extern SDL_Texture *bulletTexture;
 
 static void renderScore(struct GameState *game, int score){
@@ -117,6 +117,7 @@ void playUpdate(void *fsm_param) {
 
   /* Call update function for the player */
   player->update((void*)player);
+  updateBullets(bullets);
   /* Update enemy */
 
   /* wrop around horizontally */
@@ -164,14 +165,11 @@ void playUpdate(void *fsm_param) {
 void playDraw(struct GameState *state) {
   SDL_SetRenderDrawColor(state->renderer, 230, 120, 20, 255);
   renderBackground(state);
+  renderLedges(ledges, 10, state->renderer);
   renderScore(state, playerScore);
   renderLives(state, playerLives);
-  /* DrawImageFrame(player->texture, player->pos.x, player->pos.y, player->w,
-     player->h, 1, player->currentFrame, 0, flip, state->renderer); */
-
   drawSprite(player, state->renderer);
   drawBullets(bullets, state->renderer);
-  
   /* and the enemy */
   filledCircleColor(state->renderer, enemyPos.x, enemyPos.y, enemyRadius, 0xFFFF00FF);
   SDL_SetRenderDrawColor(state->renderer, 230, 120, 20, 255);
@@ -195,7 +193,6 @@ int playOnEnter(struct GameState *state) {
   int success = 0;
   playerLives = 3;
   initFonts();
-  
   /* enter the player */
   player = malloc(sizeof(struct Sprite));
   if (player != NULL){
@@ -213,9 +210,13 @@ int playOnEnter(struct GameState *state) {
     success = -1;
   }
 
-  bullets = malloc(sizeof(List));
+  bullets = malloc(sizeof *bullets);
   list_init(bullets, NULL);
-  LoadImage("graphics/bullet.png", (SDL_Texture **)&bulletTexture, state->renderer);
+  ledges = malloc(sizeof ledges);
+  list_init(ledges, NULL);  
+  LoadImage("graphics/bullet.png", &bulletTexture, state->renderer);
+  LoadImage("graphics/bricks.png", &brickTexture, state->renderer);
+  initLedges(ledges, state->renderer);
   
   /* And the enemy */
   enemyPos.x = 400;
@@ -235,6 +236,7 @@ int playOnExit(void) {
   puts("Exited playstate");
   SDL_DestroyTexture(player->texture);
   SDL_DestroyTexture(backgroundTexture);
+  SDL_DestroyTexture(brickTexture);
   /* TTF_CloseFont(themeFont); */
   return 1;
 }
