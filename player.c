@@ -34,6 +34,10 @@ struct Bullet{
 List *bullets;
 SDL_Texture *bulletTexture = (void *)NULL;
 
+void initPlayer(){
+  
+}
+
 void makeBullet(int x, int y, int dx){
   struct Bullet *bullet = malloc(sizeof(struct Bullet));
   bullet->pos.x = x;
