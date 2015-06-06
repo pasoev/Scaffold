@@ -32,7 +32,7 @@ void DrawImage(SDL_Texture* texture, int x, int y, int width, int height, double
   destRect.x = x;
   destRect.y = y;
 
-  SDL_RenderCopyEx(renderer, texture, &srcRect, &destRect, angle, 0, flip);
+  SDL_RenderCopyEx(renderer, texture, &srcRect, &destRect, angle, NULL, flip);
 }
 
 void DrawImageFrame(SDL_Texture* texture, int x, int y, int width, int height, int currentRow, int currentFrame, double angle, SDL_RendererFlip flip, SDL_Renderer* renderer) {

@@ -104,21 +104,25 @@ void playerUpdate(void *playerParam){
   if(!player->shooting && !player->vel.y){
     if(isKeyDown(SDL_SCANCODE_LEFT)){
       player->vel = (struct Vec2d){-STEP_SIZE, 0};
-      player->pos = add(player->pos, player->vel);
-      player->walking = 1;
+      if(player->pos.x > 0){
+	player->pos = add(player->pos, player->vel);
+	player->walking = 1;
 
-      if(globalTime % 6 == 0){
-	player->currentFrame++;
-	player->currentFrame %= 4;
+	if(globalTime % 6 == 0){
+	  player->currentFrame++;
+	  player->currentFrame %= 4;
+	}
       }
     }else if(isKeyDown(SDL_SCANCODE_RIGHT)){
       player->vel = (struct Vec2d){STEP_SIZE, 0};
       player->walking = 1;
-      player->pos = add(player->pos, player->vel);
+      if(player->pos.x < WINDOW_W - STEP_SIZE - player->w){
+	player->pos = add(player->pos, player->vel);
 
-      if(globalTime % 6 == 0){
-	player->currentFrame++;
-	player->currentFrame %= 4;
+	if(globalTime % 6 == 0){
+	  player->currentFrame++;
+	  player->currentFrame %= 4;
+	}
       }
     }else{
       player->walking = 0;

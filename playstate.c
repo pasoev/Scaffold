@@ -41,6 +41,9 @@ SDL_Texture *backgroundTexture = (void*)NULL;
 extern SDL_Texture *brickTexture;
 extern SDL_Texture *bulletTexture;
 
+int loadTextures(){
+}
+
 static void renderScore(struct GameState *game, int score){
   char scoreTxt[10];
   sprintf(scoreTxt, "%d", score);
