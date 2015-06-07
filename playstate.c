@@ -41,7 +41,12 @@ SDL_Texture *backgroundTexture = (void*)NULL;
 extern SDL_Texture *brickTexture;
 extern SDL_Texture *bulletTexture;
 
-int loadTextures(){
+int loadTextures(SDL_Renderer *renderer){
+  LoadImage("graphics/sheet.png", &(player->texture), renderer);
+  LoadImage("graphics/bullet.png", &bulletTexture, renderer);
+  LoadImage("graphics/bricks.png", &brickTexture, renderer);
+  LoadImage("graphics/background.png", &backgroundTexture, renderer);
+  
 }
 
 static void renderScore(struct GameState *game, int score){
@@ -190,7 +195,7 @@ int initFonts(void){
 }
 
 int initBackground(struct GameState *game){
-  LoadImage("graphics/background.png", &backgroundTexture, game->renderer);
+  
 }
 
 int playOnEnter(struct GameState *state) {
@@ -200,13 +205,14 @@ int playOnEnter(struct GameState *state) {
   initFonts();
   /* enter the player */
   player = malloc(sizeof(struct Sprite));
+  
   if (player != NULL){
     int imgW, imgH;
     makeSprite(player, 6, DEFAULT_HIT_POINTS, (struct Vec2d){ 600, 300 }, (struct Vec2d){ 0, 0 });
 
     player->update = playerUpdate;
     player->texture = (void *)NULL;
-    LoadImage("graphics/sheet.png", (SDL_Texture **)&(player->texture), state->renderer);
+    loadTextures(state->renderer);
     
     SDL_QueryTexture(player->texture, NULL, NULL, &imgW, &imgH);
     player->w = imgW / player->numFrames;
@@ -220,8 +226,7 @@ int playOnEnter(struct GameState *state) {
   list_init(bullets, NULL);
   ledges = malloc(sizeof *ledges);
   list_init(ledges, destroyLedge);  
-  LoadImage("graphics/bullet.png", &bulletTexture, state->renderer);
-  LoadImage("graphics/bricks.png", &brickTexture, state->renderer);
+  
   initLedges(ledges, state->renderer);
   
   /* And the enemy */
