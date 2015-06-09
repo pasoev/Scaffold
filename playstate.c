@@ -10,6 +10,7 @@
 #include "sprite.h"
 #include "ledge.h"
 #include "player.h"
+#include "enemy.h"
 
 #define PROXIMITY 300
 #define COLLISION 2
@@ -17,6 +18,7 @@
 int globalTime = 0;
 
 extern struct Sprite *player;
+extern struct Sprite *enemy;
 extern List *bullets;
 extern List *ledges;
 extern int playerScore;
@@ -43,9 +45,10 @@ extern SDL_Texture *bulletTexture;
 
 int loadTextures(SDL_Renderer *renderer){
   LoadImage("graphics/sheet.png", &(player->texture), renderer);
+  LoadImage("graphics/Biomechanical.png", &(enemy->texture), renderer);
   LoadImage("graphics/bullet.png", &bulletTexture, renderer);
   LoadImage("graphics/bricks.png", &brickTexture, renderer);
-  LoadImage("graphics/background.png", &backgroundTexture, renderer);
+  LoadImage("graphics/landscape_3.png", &backgroundTexture, renderer);
   
 }
 
@@ -127,6 +130,8 @@ void playUpdate(void *fsm_param) {
   /* Call update function for the player */
   player->update((void*)player);
   updateBullets(bullets);
+
+  enemy->update((void*)enemy);
   /* Update enemy */
 
   /* wrop around horizontally */
@@ -179,6 +184,7 @@ void playDraw(struct GameState *state) {
   renderScore(state, playerScore);
   renderLives(state, playerLives);
   drawSprite(player, state->renderer);
+  drawSprite(enemy, state->renderer);
   drawBullets(bullets, state->renderer);
   /* and the enemy */
   filledCircleColor(state->renderer, enemyPos.x, enemyPos.y, enemyRadius, 0xFFFF00FF);
@@ -205,19 +211,27 @@ int playOnEnter(struct GameState *state) {
   initFonts();
   /* enter the player */
   player = malloc(sizeof(struct Sprite));
-  
+  enemy = malloc(sizeof(struct Sprite));  
   if (player != NULL){
     int imgW, imgH;
     makeSprite(player, 6, DEFAULT_HIT_POINTS, (struct Vec2d){ 600, 300 }, (struct Vec2d){ 0, 0 });
 
     player->update = playerUpdate;
+    makeSprite(enemy, 2, DEFAULT_HIT_POINTS, (struct Vec2d){ 750, 300 }, (struct Vec2d){ 0, 3 });
+
+    enemy->update = enemyUpdate;
     player->texture = (void *)NULL;
+    enemy->texture = (void*)NULL;
     loadTextures(state->renderer);
     
     SDL_QueryTexture(player->texture, NULL, NULL, &imgW, &imgH);
     player->w = imgW / player->numFrames;
     player->h = imgH;
     player->shooting = 0;
+
+    SDL_QueryTexture(enemy->texture, NULL, NULL, &imgW, &imgH);
+    enemy->w = imgW / enemy->numFrames;
+    enemy->h = imgH;
   }else{
     success = -1;
   }
