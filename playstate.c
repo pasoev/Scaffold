@@ -49,7 +49,6 @@ int loadTextures(SDL_Renderer *renderer){
   LoadImage("graphics/bullet.png", &bulletTexture, renderer);
   LoadImage("graphics/bricks.png", &brickTexture, renderer);
   LoadImage("graphics/landscape_3.png", &backgroundTexture, renderer);
-  
 }
 
 static void renderScore(struct GameState *game, int score){
