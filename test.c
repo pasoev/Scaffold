@@ -30,7 +30,6 @@
 static char stack[8*1024];
 static int verbose = 0;
 
-
 static void y_printchar(char c) {
 	if(c == '\x7F' || (c >= 0 && c < 0x20))
 		printf("\\x%02x", c);

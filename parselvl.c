@@ -3,6 +3,86 @@
 #define BUFSIZE 4096
 
 static char stack[8*1024];
+static int verbose = 0;
+
+static void y_printchar(char c) {
+	if(c == '\x7F' || (c >= 0 && c < 0x20))
+		printf("\\x%02x", c);
+	else
+		printf("%c", c);
+}
+
+
+static void y_printstring(const char *str) {
+	while(*str) {
+		y_printchar(*str);
+		str++;
+	}
+}
+
+
+static void y_printtoken(yxml_t *x, const char *str) {
+	puts("");
+	if(verbose)
+		printf("t%03"PRIu64" l%03"PRIu32" b%03"PRIu64": ", x->total, x->line, x->byte);
+	/* printf("%s", str);*/
+}
+
+static void y_printres(yxml_t *x, yxml_ret_t r) {
+	static int indata;
+	int nextdata = 0;
+
+	switch(r) {
+	case YXML_OK:
+		if(verbose) {
+			y_printtoken(x, "ok");
+			nextdata = 0;
+		} else
+			nextdata = indata;
+		break;
+	case YXML_ELEMSTART:
+		y_printtoken(x, "elemstart ");
+		y_printstring(x->elem);
+		if(yxml_symlen(x, x->elem) != strlen(x->elem))
+			y_printtoken(x, "assertfail: elem lengths don't match");
+		if(r & YXML_CONTENT)
+			y_printtoken(x, "content");
+		break;
+	case YXML_ELEMEND:
+		y_printtoken(x, "elemend");
+		break;
+	case YXML_ATTRSTART:
+		y_printtoken(x, "attrstart ");
+		y_printstring(x->attr);
+		if(yxml_symlen(x, x->attr) != strlen(x->attr))
+			y_printtoken(x, "assertfail: attr lengths don't match");
+		break;
+	case YXML_ATTREND:
+		y_printtoken(x, "attrend");
+		break;
+	case YXML_PICONTENT:
+	case YXML_CONTENT:
+	case YXML_ATTRVAL:
+		if(!indata)
+			y_printtoken(x, r == YXML_CONTENT ? "content " : r == YXML_PICONTENT ? "picontent " : "attrval ");
+		y_printstring(x->data);
+		nextdata = 1;
+		break;
+	case YXML_PISTART:
+		y_printtoken(x, "pistart ");
+		y_printstring(x->pi);
+		if(yxml_symlen(x, x->pi) != strlen(x->pi))
+			y_printtoken(x, "assertfail: pi lengths don't match");
+		break;
+	case YXML_PIEND:
+		y_printtoken(x, "piend");
+		break;
+	default:
+		y_printtoken(x, "error\n");
+		exit(0);
+	}
+	indata = nextdata;
+}
 
 struct Ledge{
   int x;
@@ -62,59 +142,33 @@ int parseLedges(List *ledges, char *filename,
 				 const char *texturefilename,
 				 SDL_Renderer *renderer)){
 
+
+
+
+	int c;
 	yxml_ret_t r;
 	yxml_t x[1];
 	yxml_init(x, stack, sizeof(stack));
-	/* Read the contents of the file into *doc */
+
 	
 
 	FILE *fp;
 	long lSize;
-	char *doc; /* The XML document as a zero-terminated string */
+	fp = fopen (  filename , "r" );
+	if( !fp ) perror(filename),exit(1);
 
-	fp = fopen ( filename , "rb" );
-	if( !fp ) perror("objects.xml"),exit(1);
-
-	/* fseek( fp , 0L , SEEK_END); */
-	/* lSize = ftell( fp ); */
-	/* rewind( fp ); */
-
-	/* allocate memory for entire content */
-	doc = calloc( 1, lSize+1 );
-	if( !doc ) fclose(fp),fputs("memory alloc fails",stderr),exit(1);
-
-	/* copy the file into the doc */
-	if( 1!=fread( doc , lSize, 1 , fp) )
-		fclose(fp),free(doc),fputs("entire read fails",stderr),exit(1);
-
-	/* do your work here, buffer is a string contains the whole text */
+	fseek( fp , 0L , SEEK_END); 
+	lSize = ftell( fp );
+	rewind( fp ); 
+	
+	
+	while((c = getc(fp)) != EOF) {
+		r = yxml_parse(x, c);
+		y_printres(x, r);
+	}
 
 	fclose(fp);
-	/* Actually parse the xml contents */
-	int i;
-	for(i = 0; doc[i] != EOF; i++) {
-		yxml_ret_t r = yxml_parse(x, doc[i]);
-		if(r < 0){
-			perror(NULL);
-			exit(1); /* Handle error */
-		}
-		/* Handle any tokens we are interested in */
-		/* 
-		   
-		*/
-	}
-	
-
-	
-	r = yxml_eof(x);
-	if(r < 0)
-		exit(1); /* Handle error */
-	else{
-		/* No errors in the XML document */
-	}
-	if(doc != NULL ){
-		/* free(doc); */
-	}
+	y_printtoken(x, yxml_eof(x) < 0 ? "error\n" : "ok\n");
 
 	return list_size(ledges);
 }
@@ -124,7 +178,9 @@ int main(int argc, char *argv[]){
 		exit(EXIT_FAILURE);
 	}
 	char *fname = argv[1];
-	List *ledges;
+	verbose = argc > 2;
+	
+	List *ledges;	
 	parseLedges(ledges, fname, addLedge);
 	return 0;
 }
