@@ -33,6 +33,8 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 	static int indata;
 	int nextdata = 0;
 
+	/* declare the string for each attribute here. Concatenate on attrval. */
+	
 	int pos_x, pos_y, w, h;
 	/*
 	  if(!xmlStrcmp(curNode->name, (const xmlChar *)"object")){
@@ -177,7 +179,7 @@ int parseLedges(List *ledges, char *filename,
 
 	FILE *fp;
 	long lSize;
-	fp = fopen (  filename , "r" );
+	fp = fopen (  filename , "rb" );
 	if( !fp ) perror(filename),exit(1);
 
 	fseek( fp , 0L , SEEK_END); 
