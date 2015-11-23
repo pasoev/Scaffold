@@ -51,7 +51,7 @@ static void y_printtoken(yxml_t *x, const char *str) {
 	puts("");
 	if(verbose)
 		printf("t%03"PRIu64" l%03"PRIu32" b%03"PRIu64": ", x->total, x->line, x->byte);
-	printf("%s", str);
+	/* printf("%s", str);*/
 }
 
 
@@ -118,13 +118,24 @@ int main(int argc, char **argv) {
 	yxml_t x[1];
 	yxml_init(x, stack, sizeof(stack));
 
-	verbose = argc > 1;
+	verbose = argc > 2;
 
-	while((c = getc(stdin)) != EOF) {
+	FILE *fp;
+	long lSize;
+	fp = fopen ( argv[1] , "r" );
+	if( !fp ) perror(argv[1]),exit(1);
+
+	fseek( fp , 0L , SEEK_END); 
+	lSize = ftell( fp );
+	rewind( fp ); 
+	
+	
+	while((c = getc(fp)) != EOF) {
 		r = yxml_parse(x, c);
 		y_printres(x, r);
 	}
 
+	fclose(fp);
 	y_printtoken(x, yxml_eof(x) < 0 ? "error\n" : "ok\n");
 	return 0;
 }

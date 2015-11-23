@@ -65,18 +65,45 @@ int parseLedges(List *ledges, char *filename,
 	yxml_ret_t r;
 	yxml_t x[1];
 	yxml_init(x, stack, sizeof(stack));
-	/* */
+	/* Read the contents of the file into *doc */
+	
+
+	FILE *fp;
+	long lSize;
 	char *doc; /* The XML document as a zero-terminated string */
-	for(; *doc; doc++) {
-		yxml_ret_t r = yxml_parse(x, *doc);
+
+	fp = fopen ( filename , "rb" );
+	if( !fp ) perror("objects.xml"),exit(1);
+
+	/* fseek( fp , 0L , SEEK_END); */
+	/* lSize = ftell( fp ); */
+	/* rewind( fp ); */
+
+	/* allocate memory for entire content */
+	doc = calloc( 1, lSize+1 );
+	if( !doc ) fclose(fp),fputs("memory alloc fails",stderr),exit(1);
+
+	/* copy the file into the doc */
+	if( 1!=fread( doc , lSize, 1 , fp) )
+		fclose(fp),free(doc),fputs("entire read fails",stderr),exit(1);
+
+	/* do your work here, buffer is a string contains the whole text */
+
+	fclose(fp);
+	/* Actually parse the xml contents */
+	int i;
+	for(i = 0; doc[i] != EOF; i++) {
+		yxml_ret_t r = yxml_parse(x, doc[i]);
 		if(r < 0){
 			perror(NULL);
 			exit(1); /* Handle error */
 		}
 		/* Handle any tokens we are interested in */
-		printf("%s\n", x);
-		printf("%s\n", *doc);
+		/* 
+		   
+		*/
 	}
+	
 
 	
 	r = yxml_eof(x);
@@ -84,6 +111,9 @@ int parseLedges(List *ledges, char *filename,
 		exit(1); /* Handle error */
 	else{
 		/* No errors in the XML document */
+	}
+	if(doc != NULL ){
+		/* free(doc); */
 	}
 
 	return list_size(ledges);
