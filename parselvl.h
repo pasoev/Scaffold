@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+/*
 #include <libxml2/libxml/parser.h>
 #include <libxml2/libxml/tree.h>
+*/
+#include "yxml.h"
 #ifndef SDL_H
 #include <SDL2/SDL.h>
 #endif
