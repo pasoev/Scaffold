@@ -1,6 +1,28 @@
 #include "parselvl.h"
+#include "ledge.h"
 #define BUFSIZE 4096
 
+static char stack[8*1024];
+
+struct Ledge{
+  int x;
+  int y;
+  int w;
+  int h;
+  SDL_Texture *texture;
+};
+
+void addLedge(List *ledges, int x, int y, int w, int h, const char *texturefilename, SDL_Renderer *renderer){
+  struct Ledge *ledge = malloc(sizeof (struct Ledge));
+  ledge->x = x;
+  ledge->y = y;
+  ledge->w = w;
+  ledge->h = h;
+  ledge->texture = NULL;
+  list_ins_next(ledges, list_tail(ledges), ledge);
+}
+
+/*
 void makeElements(xmlNode *node, List *ledges, void (*addLedge)(List *ledges, int x, int y, int w, int h, const char *texturefilename, SDL_Renderer *renderer)){
 	xmlNode *curNode = NULL;
 
@@ -32,50 +54,47 @@ void makeElements(xmlNode *node, List *ledges, void (*addLedge)(List *ledges, in
 	}
 }
 
-int parseLedges(List *ledges, char *filename, void (*addLedge)(List *ledges, int x, int y, int w, int h, const char *texturefilename, SDL_Renderer *renderer)){
-	void *buf = malloc(BUFSIZE);
-	yxml_t x;
-	yxml_init(&x, buf, BUFSIZE);
 
-	yxml_t *x; /* An initialized state */
+*/
+int parseLedges(List *ledges, char *filename,
+		void (*addLedge)(List *ledges,
+				 int x, int y, int w, int h,
+				 const char *texturefilename,
+				 SDL_Renderer *renderer)){
+
+	yxml_ret_t r;
+	yxml_t x[1];
+	yxml_init(x, stack, sizeof(stack));
+	/* */
 	char *doc; /* The XML document as a zero-terminated string */
 	for(; *doc; doc++) {
 		yxml_ret_t r = yxml_parse(x, *doc);
-		if(r < 0)
+		if(r < 0){
+			perror(NULL);
 			exit(1); /* Handle error */
+		}
 		/* Handle any tokens we are interested in */
+		printf("%s\n", x);
+		printf("%s\n", *doc);
 	}
 
 	
-	yxml_ret_t r = yxml_eof(x);
+	r = yxml_eof(x);
 	if(r < 0)
 		exit(1); /* Handle error */
 	else{
 		/* No errors in the XML document */
 	}
 
-	xmlDoc         *document;
-	xmlNode        *root, *node;
-	if (strlen(filename) < 0) {
-		fprintf(stderr, "Usage: filename.xml\n");
-		return -1;
-	}
-	LIBXML_TEST_VERSION
-
-	document = xmlReadFile(filename, NULL, 0);
-	root = xmlDocGetRootElement(document);
-	/* fprintf(stdout, "Root is <%s> (%i)\n", root->name, root->type); */
-	makeElements(root, ledges, addLedge);
-
-	/* Clean up */
-	/* Free document. */
-	xmlFreeDoc(document);
-
-	/* Free globals */
-	xmlCleanupParser();
-  
 	return list_size(ledges);
 }
 
-
-	  
+int main(int argc, char *argv[]){
+	if(argc != 2){
+		exit(EXIT_FAILURE);
+	}
+	char *fname = argv[1];
+	List *ledges;
+	parseLedges(ledges, fname, addLedge);
+	return 0;
+}
