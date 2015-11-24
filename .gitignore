@@ -191,3 +191,5 @@ ModelManifest.xml
 
 scaffold
 test
+
+.sconsign.dblite
