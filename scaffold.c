@@ -84,7 +84,7 @@ struct Employee{
 
 
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
   SDL_Window *window = NULL;
   SDL_Renderer *renderer = NULL;
   List states;
