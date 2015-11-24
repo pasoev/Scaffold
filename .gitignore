@@ -193,3 +193,6 @@ scaffold
 test
 
 .sconsign.dblite
+
+# Windows
+*.exe
