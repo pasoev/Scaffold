@@ -163,14 +163,3 @@ int parseLedges(List *ledges, char *filename,
 	return list_size(ledges);
 }
 
-int main(int argc, char *argv[]){
-	if(argc != 2){
-		exit(EXIT_FAILURE);
-	}
-	char *fname = argv[1];
-	verbose = argc > 3;
-	
-	List *ledges;	
-	parseLedges(ledges, fname, addLedge);
-	return 0;
-}
