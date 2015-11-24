@@ -11,6 +11,6 @@
 	  textureFile="graphics/bricks.png" numFrames="1"/>
   <object type="Sprite" x="512" y="95" width="128" height="95"
 	  textureFile="graphics/bricks.png" numFrames="1"/>
-  <object type="Sprite" x="640" y="95" width="128" height="95"
+  <object type="Sprite" x="640" y="595" width="128" height="95"
 	  textureFile="graphics/bricks.png" numFrames="1"/>
 </OBJECTS>
