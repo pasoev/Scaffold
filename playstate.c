@@ -1,4 +1,4 @@
-#include <SDL2/SDL2_gfxPrimitives.h>
+/* #include <SDL2/SDL2_gfxPrimitives.h> */
 #include <stdio.h>
 #include "gamestate.h"
 #ifndef TEXTURE_H
@@ -186,7 +186,7 @@ void playDraw(struct GameState *state) {
 	drawSprite(enemy, state->renderer);
 	drawBullets(bullets, state->renderer);
 	/* and the enemy */
-	filledCircleColor(state->renderer, enemyPos.x, enemyPos.y, enemyRadius, 0xFFFF00FF);
+	/* filledCircleColor(state->renderer, enemyPos.x, enemyPos.y, enemyRadius, 0xFFFF00FF);*/
 	SDL_SetRenderDrawColor(state->renderer, 230, 120, 20, 255);
 }
 
