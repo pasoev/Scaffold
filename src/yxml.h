@@ -1,23 +1,23 @@
 /* Copyright (c) 2013-2014 Yoran Heling
 
-  Permission is hereby granted, free of charge, to any person obtaining
-  a copy of this software and associated documentation files (the
-  "Software"), to deal in the Software without restriction, including
-  without limitation the rights to use, copy, modify, merge, publish,
-  distribute, sublicense, and/or sell copies of the Software, and to
-  permit persons to whom the Software is furnished to do so, subject to
-  the following conditions:
+   Permission is hereby granted, free of charge, to any person obtaining
+   a copy of this software and associated documentation files (the
+   "Software"), to deal in the Software without restriction, including
+   without limitation the rights to use, copy, modify, merge, publish,
+   distribute, sublicense, and/or sell copies of the Software, and to
+   permit persons to whom the Software is furnished to do so, subject to
+   the following conditions:
 
-  The above copyright notice and this permission notice shall be included
-  in all copies or substantial portions of the Software.
+   The above copyright notice and this permission notice shall be included
+   in all copies or substantial portions of the Software.
 
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #ifndef YXML_H
@@ -128,19 +128,19 @@ typedef struct {
 extern "C" {
 #endif
 
-void yxml_init(yxml_t *, void *, size_t);
+	void yxml_init(yxml_t *, void *, size_t);
 
 
-yxml_ret_t yxml_parse(yxml_t *, int);
+	yxml_ret_t yxml_parse(yxml_t *, int);
 
 
-/* May be called after the last character has been given to yxml_parse().
- * Returns YXML_OK if the XML document is valid, YXML_EEOF otherwise.  Using
- * this function isn't really necessary, but can be used to detect documents
- * that don't end correctly. In particular, an error is returned when the XML
- * document did not contain a (complete) root element, or when the document
- * ended while in a comment or processing instruction. */
-yxml_ret_t yxml_eof(yxml_t *);
+	/* May be called after the last character has been given to yxml_parse().
+	 * Returns YXML_OK if the XML document is valid, YXML_EEOF otherwise.  Using
+	 * this function isn't really necessary, but can be used to detect documents
+	 * that don't end correctly. In particular, an error is returned when the XML
+	 * document did not contain a (complete) root element, or when the document
+	 * ended while in a comment or processing instruction. */
+	yxml_ret_t yxml_eof(yxml_t *);
 
 #ifdef __cplusplus
 }
