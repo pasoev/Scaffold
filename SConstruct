@@ -7,14 +7,14 @@ cc = "gcc"
 
 libs = Split('SDL2 SDL2_image SDL2_ttf m')
 
-ccflags = '-g'
+ccflags = '-g' + w
 if platform == 'win32':
    ccflags += " -mwindows"
    libs.insert(0, 'SDL2main')
    libs.insert(0, 'mingw32')
 
 VariantDir('build', 'src', duplicate=0)
-env = Environment(CC = cc, CCFLAGS = ccflags, tools=['mingw'])
+env = Environment(CC = cc, CCFLAGS = ccflags, tools=['default', 'mingw'])
 
 
 
