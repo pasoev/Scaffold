@@ -1,6 +1,7 @@
+w = ' -Wall -Wextra -Wstrict-prototypes -Wshadow -Wwrite-strings -Wold-style-definition -Wredundant-decls -Wnested-externs -Wmissing-include-dirs -Wstrict-aliasing'
 cc = "gcc"
 ccflags = '-g'
-env = Environment(CC = cc, CCFLAGS = ccflags)
+env = Environment(CC = cc, CCFLAGS = ccflags + w)
 
 
 
