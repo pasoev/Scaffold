@@ -29,23 +29,17 @@ static void y_printtoken(yxml_t *x, const char *str) {
 	/* printf("%s", str);*/
 }
 
+char pos_xChr[20] = "", pos_yChr[20] = "", wChr[20] = "", hChr[20] = "";
+int pos_x = 0, pos_y = 0, w = 0, h = 0;
+
 static void y_printres(yxml_t *x, yxml_ret_t r) {
 	static int indata;
 	int nextdata = 0;
 
 	/* declare the string for each attribute here. Concatenate on attrval. */
 
-	char pos_xChr[20], pos_yChr[20], wChr[20], hChr[20];
-	int pos_x, pos_y, w, h;
+
 	/*
-	  if(!xmlStrcmp(curNode->name, (const xmlChar *)"object")){
-	  xChar = xmlGetProp(curNode, "x");
-	  yChar = xmlGetProp(curNode, "y");
-	  wChar = xmlGetProp(curNode, "width");
-	  hChar = xmlGetProp(curNode, "height");
-	  textureFilename = xmlGetProp(curNode, "textureFile");
-				
-	  printf("Making ledge: %d %d %d %d %s\n", x, y, w, h, textureFilename);
 	  addLedge(ledges, x, y, w, h, textureFilename, NULL);
 	*/
 
@@ -61,12 +55,12 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 	case YXML_ELEMSTART:
 		/* y_printtoken(x, "elemstart "); */
 		/* y_printstring(x->elem); */
-		/*
+		
 		if(yxml_symlen(x, x->elem) != strlen(x->elem))
 			y_printtoken(x, "assertfail: elem lengths don't match");
 		if(r & YXML_CONTENT)
 			y_printtoken(x, "content");
-		*/
+		
 		break;
 	case YXML_ELEMEND:
 		/* printf("\n-----\nx = %d, y = %d, w = %d, h = %d\n-----\n", pos_x, pos_y, w, h); */
@@ -86,6 +80,7 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 		y_printtoken(x, "attrend");
 		*/
 		if(!strcmp("x", x->attr)){
+			y_printstring(pos_xChr);
 			pos_x = atoi(pos_xChr);
 			memset(pos_xChr, 0, sizeof(pos_xChr));
 		}else if(!strcmp("y", x->attr)){
@@ -157,40 +152,6 @@ void addLedge(List *ledges, int x, int y, int w, int h, const char *texturefilen
 	list_ins_next(ledges, list_tail(ledges), ledge);
 }
 
-/*
-  void makeElements(xmlNode *node, List *ledges, void (*addLedge)(List *ledges, int x, int y, int w, int h, const char *texturefilename, SDL_Renderer *renderer)){
-  xmlNode *curNode = NULL;
-
-  for(curNode = node; curNode != NULL; curNode = curNode->next){
-  if(curNode->type == XML_ELEMENT_NODE){
-  printf("%s\n", curNode->name);
-  xmlChar *xChar, *yChar, *wChar, *hChar, *textureFilename;
-  int x, y, w, h;
-  if(!xmlStrcmp(curNode->name, (const xmlChar *)"object")){
-  xChar = xmlGetProp(curNode, "x");
-  yChar = xmlGetProp(curNode, "y");
-  wChar = xmlGetProp(curNode, "width");
-  hChar = xmlGetProp(curNode, "height");
-  textureFilename = xmlGetProp(curNode, "textureFile");
-  x = atoi(xChar);
-  y = atoi(yChar);
-  w = atoi(wChar);
-  h = atoi(hChar);
-  printf("Making ledge: %d %d %d %d %s\n", x, y, w, h, textureFilename);
-  addLedge(ledges, x, y, w, h, textureFilename, NULL);
-  xmlFree(xChar);
-  xmlFree(yChar);
-  xmlFree(wChar);
-  xmlFree(hChar);
-  xmlFree(textureFilename);
-  }
-  }
-  makeElements(curNode->children, ledges, addLedge);
-  }
-  }
-
-
-*/
 int parseLedges(List *ledges, char *filename,
 		void (*addLedge)(List *ledges,
 				 int x, int y, int w, int h,
