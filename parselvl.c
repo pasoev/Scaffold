@@ -5,30 +5,6 @@
 static char stack[8*1024];
 static int verbose = 0;
 
-static void y_printchar(char c) {
-	if(c == '\x7F' || (c >= 0 && c < 0x20))
-		printf("\\x%02x", c);
-	else
-		printf("%c", c);
-}
-
-
-static void y_printstring(const char *str) {
-	while(*str) {
-		y_printchar(*str);
-		str++;
-	}
-}
-
-
-static void y_printtoken(yxml_t *x, const char *str) {
-	puts("");
-	if(verbose)
-		printf("t%03"PRIu64" l%03"PRIu32" b%03"PRIu64": ",
-		       x->total, x->line, x->byte);
-	/* printf("%s", str);*/
-}
-
 char pos_xChr[20] = "", pos_yChr[20] = "", wChr[20] = "", hChr[20] = "";
 int pos_x = 0, pos_y = 0, w = 0, h = 0;
 
@@ -47,7 +23,7 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 	switch(r) {
 	case YXML_OK:
 		if(verbose) {
-			y_printtoken(x, "ok");
+			/* y_printtoken(x, "ok"); */
 			nextdata = 0;
 		} else
 			nextdata = indata;
@@ -56,10 +32,12 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 		/* y_printtoken(x, "elemstart "); */
 		/* y_printstring(x->elem); */
 		
-		if(yxml_symlen(x, x->elem) != strlen(x->elem))
-			y_printtoken(x, "assertfail: elem lengths don't match");
-		if(r & YXML_CONTENT)
-			y_printtoken(x, "content");
+		if(yxml_symlen(x, x->elem) != strlen(x->elem)){
+			/* y_printtoken(x, "assertfail: elem lengths don't match"); */
+		}
+		if(r & YXML_CONTENT){
+			/* y_printtoken(x, "content");*/
+		}
 		
 		break;
 	case YXML_ELEMEND:
@@ -80,7 +58,6 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 		y_printtoken(x, "attrend");
 		*/
 		if(!strcmp("x", x->attr)){
-			y_printstring(pos_xChr);
 			pos_x = atoi(pos_xChr);
 			memset(pos_xChr, 0, sizeof(pos_xChr));
 		}else if(!strcmp("y", x->attr)){
@@ -115,10 +92,11 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 		nextdata = 1;
 		break;
 	case YXML_PISTART:
-		y_printtoken(x, "pistart ");
-		y_printstring(x->pi);
-		if(yxml_symlen(x, x->pi) != strlen(x->pi))
-			y_printtoken(x, "assertfail: pi lengths don't match");
+		/* y_printtoken(x, "pistart "); */
+		/* y_printstring(x->pi); */
+		if(yxml_symlen(x, x->pi) != strlen(x->pi)){
+			/* y_printtoken(x, "assertfail: pi lengths don't match"); */
+		}
 		break;
 	case YXML_PIEND:
 		/*
@@ -180,7 +158,7 @@ int parseLedges(List *ledges, char *filename,
 	}
 
 	fclose(fp);
-	y_printtoken(x, yxml_eof(x) < 0 ? "error\n" : "ok\n");
+	/* y_printtoken(x, yxml_eof(x) < 0 ? "error\n" : "ok\n"); */
 
 	return list_size(ledges);
 }
