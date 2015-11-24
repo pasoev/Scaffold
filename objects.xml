@@ -5,7 +5,7 @@
 	  textureFile="graphics/bricks.png" numFrames="1"/>
   <object type="Sprite" x="128" y="95" width="128" height="95"
 	  textureFile="graphics/bricks.png" numFrames="1"/>
-  <object type="Sprite" x="256" y="95" width="128" height="95"
+  <object type="Sprite" x="256" y="95" width="128" height="94"
 	  textureFile="graphics/bricks.png" numFrames="1"/>
   <object type="Sprite" x="384" y="95" width="128" height="95"
 	  textureFile="graphics/bricks.png" numFrames="1"/>

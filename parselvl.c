@@ -34,7 +34,8 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 	int nextdata = 0;
 
 	/* declare the string for each attribute here. Concatenate on attrval. */
-	
+
+	char pos_xChr[20], pos_yChr[20], wChr[20], hChr[20];
 	int pos_x, pos_y, w, h;
 	/*
 	  if(!xmlStrcmp(curNode->name, (const xmlChar *)"object")){
@@ -58,41 +59,62 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 			nextdata = indata;
 		break;
 	case YXML_ELEMSTART:
-		y_printtoken(x, "elemstart ");
-		y_printstring(x->elem);
-		
+		/* y_printtoken(x, "elemstart "); */
+		/* y_printstring(x->elem); */
+		/*
 		if(yxml_symlen(x, x->elem) != strlen(x->elem))
 			y_printtoken(x, "assertfail: elem lengths don't match");
 		if(r & YXML_CONTENT)
 			y_printtoken(x, "content");
+		*/
 		break;
 	case YXML_ELEMEND:
+		/* printf("\n-----\nx = %d, y = %d, w = %d, h = %d\n-----\n", pos_x, pos_y, w, h); */
+		/* y_printtoken(x, "elemend"); */
 		printf("\n-----\nx = %d, y = %d, w = %d, h = %d\n-----\n", pos_x, pos_y, w, h);
-		y_printtoken(x, "elemend");
 		break;
 	case YXML_ATTRSTART:
-		y_printtoken(x, "attrstart ");
-		y_printstring(x->attr);
+		/* y_printtoken(x, "attrstart "); */
+		/* y_printstring(x->attr); */
+		/* 
 		if(yxml_symlen(x, x->attr) != strlen(x->attr))
 			y_printtoken(x, "assertfail: attr lengths don't match");
+		*/
 		break;
 	case YXML_ATTREND:
+		/*
 		y_printtoken(x, "attrend");
+		*/
+		if(!strcmp("x", x->attr)){
+			pos_x = atoi(pos_xChr);
+			memset(pos_xChr, 0, sizeof(pos_xChr));
+		}else if(!strcmp("y", x->attr)){
+			pos_y = atoi(pos_yChr);
+			memset(pos_yChr, 0, sizeof(pos_yChr));
+		}else if(!strcmp("width", x->attr)){
+			w = atoi(wChr);
+			memset(wChr, 0, sizeof(wChr));
+		}else if(!strcmp("height", x->attr)){
+			h = atoi(hChr);
+			memset(hChr, 0, sizeof(hChr));
+		}
 		break;
 	case YXML_PICONTENT:
 	case YXML_CONTENT:
 	case YXML_ATTRVAL:
+		/*
 		if(!indata){
 			y_printtoken(x, r == YXML_CONTENT ? "content " : r == YXML_PICONTENT ? "picontent " : "attrval ");
 		}
+		*/
 		if(!strcmp("x", x->attr)){
-			pos_x = atoi(x->data);
+			strcat(pos_xChr, x->data);
 		}else if(!strcmp("y", x->attr)){
-			pos_y = atoi(x->data);
+			strcat(pos_yChr, x->data);
 		}else if(!strcmp("width", x->attr)){
-			w = atoi(x->data);
+			strcat(wChr, x->data);
 		}else if(!strcmp("height", x->attr)){
-			h = atoi(x->data);
+			strcat(hChr, x->data);
 		}
 		/* y_printstring(x->data); */
 		nextdata = 1;
@@ -104,10 +126,14 @@ static void y_printres(yxml_t *x, yxml_ret_t r) {
 			y_printtoken(x, "assertfail: pi lengths don't match");
 		break;
 	case YXML_PIEND:
+		/*
 		y_printtoken(x, "piend");
+		*/
 		break;
 	default:
+		/*
 		y_printtoken(x, "error\n");
+		*/
 		exit(0);
 	}
 	indata = nextdata;
@@ -203,7 +229,7 @@ int main(int argc, char *argv[]){
 		exit(EXIT_FAILURE);
 	}
 	char *fname = argv[1];
-	verbose = argc > 2;
+	verbose = argc > 3;
 	
 	List *ledges;	
 	parseLedges(ledges, fname, addLedge);
