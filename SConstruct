@@ -34,7 +34,7 @@ src_files = Glob('build/*.c')
 Command("build/graphics", "assets/graphics", Copy("build/${SOURCE.file}", "$SOURCE"))
 Command("build/fonts", "assets/fonts", Copy("build/${SOURCE.file}", "$SOURCE"))
 Command("build/levels", "assets/levels", Copy("build/${SOURCE.file}", "$SOURCE"))
-for lib in Glob('libs/*.dll'):
+for lib in Glob('lib/*.dll'):
    Command("build/${SOURCE.file}", lib, Copy("build/${SOURCE.file}", "$SOURCE"))
 
 env.Program(source = src_files, target = 'build/scaffold', LIBS=libs,
