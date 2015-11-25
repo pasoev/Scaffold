@@ -13,7 +13,8 @@ if platform == 'win32':
    libs.insert(0, 'SDL2main')
    libs.insert(0, 'mingw32')
 
-VariantDir('build', 'src', duplicate=0)
+build_dir = 'build' 
+VariantDir(build_dir, 'src', duplicate=0)
 env = Environment(CC = cc, CCFLAGS = ccflags, tools=['default', 'mingw'])
 
 
@@ -39,3 +40,4 @@ for lib in Glob('lib/*.dll'):
 
 env.Program(source = src_files, target = 'build/scaffold', LIBS=libs,
 LIBPATH=libpath, CPPPATH=cpppath)
+Clean('.', build_dir)
