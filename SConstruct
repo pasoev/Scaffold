@@ -7,7 +7,7 @@ cc = "gcc"
 
 libs = Split('SDL2 SDL2_image SDL2_ttf m')
 
-ccflags = '-g' + w
+ccflags = '-g' # + w
 if platform == 'win32':
    ccflags += " -mwindows"
    libs.insert(0, 'SDL2main')
@@ -20,12 +20,19 @@ env = Environment(CC = cc, CCFLAGS = ccflags, tools=['default', 'mingw'])
 
 
 
-libpath = ['/usr/lib', '/usr/local/lib', 'C:\SDL2\SDL2\i686-w64-mingw32\lib', 'C:\SDL2\SDL2_image-2.0.0\i686-w64-mingw32\lib', 'C:\SDL2\SDL2_ttf-2.0.12\i686-w64-mingw32\lib']
-cpppath = ['C:\SDL2\SDL2\i686-w64-mingw32\include', 'C:\SDL2\SDL2_image-2.0.0\i686-w64-mingw32\include', 'C:\SDL2\SDL2_ttf-2.0.12\i686-w64-mingw32\include', 'C:\SDL2\SDL2\i686-w64-mingw32\include\SDL2']
-
-# src_files = Split('build/scaffold.c list.c yxml.c parselvl.c fsm.c geometry.c sprite.c ledge.c enemy.c player.c text.c texture.c menustate.c playstate.c pausestate.c gameoverstate.c')
+libpath = ['/usr/lib',
+           '/usr/local/lib',
+           'C:\SDL2\SDL2\i686-w64-mingw32\lib',
+           'C:\SDL2\SDL2_image-2.0.0\i686-w64-mingw32\lib',
+           'C:\SDL2\SDL2_ttf-2.0.12\i686-w64-mingw32\lib']
+cpppath = ['C:\SDL2\SDL2\i686-w64-mingw32\include',
+           'C:\SDL2\SDL2_image-2.0.0\i686-w64-mingw32\include',
+           'C:\SDL2\SDL2_ttf-2.0.12\i686-w64-mingw32\include',
+           'C:\SDL2\SDL2\i686-w64-mingw32\include\SDL2']
 
 src_files = Glob('build/*.c')
-
+Command("build/graphics", "assets/graphics", Copy("build/${SOURCE.file}", "$SOURCE"))
+Command("build/fonts", "assets/fonts", Copy("build/${SOURCE.file}", "$SOURCE"))
+Command("build/levels", "assets/levels", Copy("build/${SOURCE.file}", "$SOURCE"))
 env.Program(source = src_files, target = 'build/scaffold', LIBS=libs,
 LIBPATH=libpath, CPPPATH=cpppath)

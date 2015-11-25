@@ -37,7 +37,7 @@ void initLedges(List *ledges, SDL_Renderer *renderer){
 	    }
 	*/
 	int numLedges = 0;
-	numLedges = parseLedges(ledges, "objects.xml", addLedge);
+	numLedges = parseLedges(ledges, "levels/objects.xml", addLedge);
 	printf("Loaded game objects: %d\n", numLedges);
 }
 
