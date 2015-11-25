@@ -4,7 +4,7 @@ Scaffold
 A simple game framework with the basic functionality like managing
 states, loading images, handling input and basic structures.
 
-Currently the projects is in the form of an app rather than in the
+Currently the project is in the form of an app rather than in the
 form of a library. 
 
 Dependencies
