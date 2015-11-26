@@ -21,6 +21,7 @@ extern struct Vec2d enemyPos, enemyVel;
 extern Sint16 enemyRadius;
 extern int enemyChasing;
 extern int WINDOW_W;
+extern int LEVEL_W;
 extern int WINDOW_H;
 
 extern int isKeyDown(SDL_Scancode);
