@@ -38,6 +38,11 @@ int LIVES_LOC_Y = CAPTION_OFFSET;
 #define SCORE_LOC_X (WINDOW_W - CAPTION_OFFSET)
 int SCORE_LOC_Y = CAPTION_OFFSET;
 
+/* Camera */
+int LEVEL_W = 1280 * 15;
+int LEVEL_H = 800 * 2;
+struct Camera camera = {{0, 0, 640, 400}};
+
 TTF_Font *themeFont = NULL;
 SDL_Texture *backgroundTexture = (void*)NULL;
 extern SDL_Texture *brickTexture;
@@ -63,8 +68,10 @@ static void renderLives(struct GameState *game, int lives){
 	DrawText(game->renderer, livesTxt, LIVES_LOC_X, LIVES_LOC_Y, themeFont, 0xFF, 0x0, 0x0);
 }
 
-static void renderBackground(struct GameState *game){
-	DrawImage(backgroundTexture, 0, 0, 1280, 800, 0, SDL_FLIP_NONE, game->renderer);
+static void renderBackground(struct GameState *game, struct Camera *camera){
+   DrawImage(backgroundTexture, 0, 0, 1280, 800, 0, SDL_FLIP_NONE, game->renderer); 
+	SDL_Rect body = {0, 0, 2280, 800};
+	/* DrawImageOnCamera(backgroundTexture, body, NULL, 0, SDL_FLIP_NONE, game->renderer); */
 }
 
 extern int isKeyDown(SDL_Scancode);
@@ -128,6 +135,24 @@ void playUpdate(void *fsm_param) {
 
 	/* Call update function for the player */
 	player->update((void*)player);
+	/* Center the camera over the dot */
+	camera.rect.x = (player->pos.x + player->w / 2) - WINDOW_W / 2;
+	camera.rect.y = (player->pos.y + player->h / 2) - WINDOW_H / 2;
+
+	/* Keep the camera in bounds */
+	if(camera.rect.x < 0){
+	  camera.rect.x = 0;
+	}
+	if(camera.rect.y < 0){
+	  camera.rect.y = 0;
+	}
+	if(camera.rect.x > LEVEL_W - camera.rect.w){
+	  camera.rect.x = LEVEL_W - camera.rect.w;
+	}
+	if(camera.rect.y > LEVEL_H - camera.rect.h){
+	  camera.rect.y = LEVEL_H - camera.rect.h;
+	}
+
 	updateBullets(bullets);
 
 	enemy->update((void*)enemy);
@@ -178,12 +203,12 @@ void playUpdate(void *fsm_param) {
 
 void playDraw(struct GameState *state) {
 	SDL_SetRenderDrawColor(state->renderer, 230, 120, 20, 255);
-	renderBackground(state);
+	renderBackground(state, &camera);
 	renderLedges(ledges, 10, state->renderer);
 	renderScore(state, playerScore);
 	renderLives(state, playerLives);
-	drawSprite(player, state->renderer);
-	drawSprite(enemy, state->renderer);
+	drawSprite(player, &camera, state->renderer);
+	drawSprite(enemy, &camera, state->renderer);
 	drawBullets(bullets, state->renderer);
 	/* and the enemy */
 	/* filledCircleColor(state->renderer, enemyPos.x, enemyPos.y, enemyRadius, 0xFFFF00FF);*/

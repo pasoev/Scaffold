@@ -14,7 +14,7 @@ int makeSprite(struct Sprite *sprite, int numFrames, int hitPoints, struct Vec2d
 	return 0;
 }
 
-void drawSprite(struct Sprite *sprite, SDL_Renderer *renderer){
+void drawSprite(struct Sprite *sprite, struct Camera *camera, SDL_Renderer *renderer){
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 	if (sprite->vel.x < 0){
 		flip = SDL_FLIP_HORIZONTAL;
@@ -22,6 +22,11 @@ void drawSprite(struct Sprite *sprite, SDL_Renderer *renderer){
 		flip = SDL_FLIP_NONE;
 	}
 
-	DrawImageFrame(sprite->texture, sprite->pos.x, sprite->pos.y, sprite->w,
-		       sprite->h, 1, sprite->currentFrame, 0, flip, renderer);
+	int x, y;
+	x = sprite->pos.x - camera->rect.x;
+	y = sprite->pos.y - camera->rect.y;
+	SDL_Rect body = {x, y, sprite->w, sprite->h};
+	DrawImageOnCamera(sprite->texture, body, NULL, 0, NULL, flip, renderer);
+	/* DrawImageFrame(sprite->texture, sprite->pos.x, sprite->pos.y, sprite->w,
+	   sprite->h, 1, sprite->currentFrame, 0, flip, renderer); */
 }

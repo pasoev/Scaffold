@@ -17,6 +17,10 @@
 #include "texture.h"
 #endif
 
+#ifndef CAMERA_H
+#include "camera.h"
+#endif
+
 struct Sprite{
 	int w, h;
 	int hitPoints;
@@ -32,7 +36,7 @@ struct Sprite{
 #define DEFAULT_HIT_POINTS 5
 
 int makeSprite(struct Sprite *sprite, int numFrames, int hitPoints, struct Vec2d pos, struct Vec2d vel);
-void drawSprite(struct Sprite *sprite, SDL_Renderer *renderer);
+void drawSprite(struct Sprite *sprite, struct Camera *camera, SDL_Renderer *renderer);
 
 #ifdef	__cplusplus
 extern "C" {
