@@ -20,11 +20,8 @@ int playerLives = 3;
 extern struct Vec2d enemyPos, enemyVel;
 extern Sint16 enemyRadius;
 extern int enemyChasing;
-<<<<<<< HEAD
+
 extern int WINDOW_W; /* only for bullets */
-=======
-extern int WINDOW_W;
->>>>>>> rescue
 extern int LEVEL_W;
 extern int WINDOW_H;
 

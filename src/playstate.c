@@ -41,11 +41,8 @@ int SCORE_LOC_Y = CAPTION_OFFSET;
 /* Camera */
 int LEVEL_W = 1280 * 15;
 int LEVEL_H = 800 * 2;
-<<<<<<< HEAD
-struct Camera camera = {{ 0, 0, 1280, 800}};
-=======
+
 struct Camera camera = {{0, 0, 640, 400}};
->>>>>>> rescue
 
 TTF_Font *themeFont = NULL;
 SDL_Texture *backgroundTexture = (void*)NULL;
@@ -73,15 +70,9 @@ static void renderLives(struct GameState *game, int lives){
 }
 
 static void renderBackground(struct GameState *game, struct Camera *camera){
-<<<<<<< HEAD
-	/* DrawImage(backgroundTexture, 0, 0, 1280, 800, 0, SDL_FLIP_NONE, game->renderer); */
-	SDL_Rect body = {0, 0, 1280, 800};
-	DrawImageOnCamera(backgroundTexture, body, 0, NULL, SDL_FLIP_NONE, game->renderer );
-=======
    DrawImage(backgroundTexture, 0, 0, 1280, 800, 0, SDL_FLIP_NONE, game->renderer); 
 	SDL_Rect body = {0, 0, 2280, 800};
 	/* DrawImageOnCamera(backgroundTexture, body, NULL, 0, SDL_FLIP_NONE, game->renderer); */
->>>>>>> rescue
 }
 
 extern int isKeyDown(SDL_Scancode);
@@ -145,31 +136,6 @@ void playUpdate(void *fsm_param) {
 
 	/* Call update function for the player */
 	player->update((void*)player);
-<<<<<<< HEAD
-	
-	/* Center the camera over the dot */ // x = player->pos.x + 5;
-	camera.rect.x = ( player->pos.x + player->w / 2 ) - WINDOW_W / 2;
-	camera.rect.y = ( player->pos.y + player->h / 2 ) - WINDOW_H / 2;
-
-	/* Keep the camera in bounds */
-	if( camera.rect.x < 0 )
-		{ 
-			camera.rect.x = 0;
-		}
-	if( camera.rect.y < 0 )
-		{
-			camera.rect.y = 0;
-		}
-	if( camera.rect.x > LEVEL_W - camera.rect.w )
-		{
-			camera.rect.x = LEVEL_W - camera.rect.w;
-		}
-	if( camera.rect.y > LEVEL_H - camera.rect.h )
-		{
-			camera.rect.y = LEVEL_H - camera.rect.h;
-		}
-	
-=======
 	/* Center the camera over the dot */
 	camera.rect.x = (player->pos.x + player->w / 2) - WINDOW_W / 2;
 	camera.rect.y = (player->pos.y + player->h / 2) - WINDOW_H / 2;
@@ -188,7 +154,6 @@ void playUpdate(void *fsm_param) {
 	  camera.rect.y = LEVEL_H - camera.rect.h;
 	}
 
->>>>>>> rescue
 	updateBullets(bullets);
 
 	enemy->update((void*)enemy);
