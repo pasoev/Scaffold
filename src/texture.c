@@ -33,6 +33,24 @@ void DrawImage(SDL_Texture* texture, int x, int y, int width, int height, double
 	destRect.y = y;
 
 	SDL_RenderCopyEx(renderer, texture, &srcRect, &destRect, angle, NULL, flip);
+	/* SDL_RenderCopyEx( gRenderer, mTexture, clip, &renderQuad, angle, center, flip ); */
+}
+
+void DrawImageOnCamera(SDL_Texture* texture, SDL_Rect body, SDL_Rect* clip, 
+		       double angle, SDL_Point* center,
+		       SDL_RendererFlip flip, SDL_Renderer *renderer){
+	//Set rendering space and render to screen
+	SDL_Rect renderQuad = { body.x, body.y, body.w, body.h };
+
+	//Set clip rendering dimensions
+	if( clip != NULL )
+		{
+			renderQuad.w = clip->w;
+			renderQuad.h = clip->h;
+		}
+
+	//Render to screen
+	SDL_RenderCopyEx( renderer, texture, clip, &renderQuad, angle, center, flip );
 }
 
 void DrawImageFrame(SDL_Texture* texture, int x, int y, int width, int height, int currentRow, int currentFrame, double angle, SDL_RendererFlip flip, SDL_Renderer* renderer) {
