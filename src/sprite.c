@@ -26,8 +26,15 @@ void drawSprite(struct Sprite *sprite, struct Camera *camera, SDL_Renderer *rend
 	int x, y;
 	x = sprite->pos.x - camera->rect.x;
 	y = sprite->pos.y - camera->rect.y;
+<<<<<<< HEAD
 	/* DrawImageFrame(sprite->texture, x, y, sprite->w,
 		       sprite->h, 1, sprite->currentFrame, 0, flip, renderer); */
 	SDL_Rect body = {x, y, sprite->w, sprite->h};
 	DrawImageOnCamera(sprite->texture, body, 0, NULL, flip, renderer);
+=======
+	SDL_Rect body = {x, y, sprite->w, sprite->h};
+	DrawImageOnCamera(sprite->texture, body, NULL, 0, NULL, flip, renderer);
+	/* DrawImageFrame(sprite->texture, sprite->pos.x, sprite->pos.y, sprite->w,
+	   sprite->h, 1, sprite->currentFrame, 0, flip, renderer); */
+>>>>>>> rescue
 }
