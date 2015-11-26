@@ -70,7 +70,7 @@ static void renderLives(struct GameState *game, int lives){
 }
 
 static void renderBackground(struct GameState *game, struct Camera *camera){
-   DrawImage(backgroundTexture, 0, 0, 1280, 800, 0, SDL_FLIP_NONE, game->renderer); 
+	DrawImage(backgroundTexture, 0, 0, 1280, 800, 0, SDL_FLIP_NONE, game->renderer); 
 	SDL_Rect body = {0, 0, 2280, 800};
 	/* DrawImageOnCamera(backgroundTexture, body, NULL, 0, SDL_FLIP_NONE, game->renderer); */
 }
@@ -142,16 +142,16 @@ void playUpdate(void *fsm_param) {
 
 	/* Keep the camera in bounds */
 	if(camera.rect.x < 0){
-	  camera.rect.x = 0;
+		camera.rect.x = 0;
 	}
 	if(camera.rect.y < 0){
-	  camera.rect.y = 0;
+		camera.rect.y = 0;
 	}
 	if(camera.rect.x > LEVEL_W - camera.rect.w){
-	  camera.rect.x = LEVEL_W - camera.rect.w;
+		camera.rect.x = LEVEL_W - camera.rect.w;
 	}
 	if(camera.rect.y > LEVEL_H - camera.rect.h){
-	  camera.rect.y = LEVEL_H - camera.rect.h;
+		camera.rect.y = LEVEL_H - camera.rect.h;
 	}
 
 	updateBullets(bullets);
