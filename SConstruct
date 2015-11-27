@@ -24,12 +24,16 @@ env = Environment(CC = cc, CCFLAGS = ccflags, tools=['default', 'mingw'])
 libpath = ['/usr/lib',
            '/usr/local/lib',
            'C:\SDL2\SDL2\i686-w64-mingw32\lib',
+	   'C:\SDL2\SDL2-2.0.3\i686-w64-mingw32\lib',
            'C:\SDL2\SDL2_image-2.0.0\i686-w64-mingw32\lib',
            'C:\SDL2\SDL2_ttf-2.0.12\i686-w64-mingw32\lib']
 cpppath = ['C:\SDL2\SDL2\i686-w64-mingw32\include',
+	   'C:\SDL2\SDL2-2.0.3\i686-w64-mingw32\include',
            'C:\SDL2\SDL2_image-2.0.0\i686-w64-mingw32\include',
            'C:\SDL2\SDL2_ttf-2.0.12\i686-w64-mingw32\include',
-           'C:\SDL2\SDL2\i686-w64-mingw32\include\SDL2']
+           'C:\SDL2\SDL2\i686-w64-mingw32\include\SDL2',
+	   'C:\SDL2\SDL2-2.0.3\i686-w64-mingw32\include\SDL2',
+	   ]
 
 src_files = Glob('build/*.c')
 Command("build/graphics", "assets/graphics", Copy("build/${SOURCE.file}", "$SOURCE"))
