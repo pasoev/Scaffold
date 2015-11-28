@@ -70,9 +70,9 @@ static void renderLives(struct GameState *game, int lives){
 }
 
 static void renderBackground(struct GameState *game, struct Camera *camera){
-	DrawImage(backgroundTexture, 0, 0, 1280, 800, 0, SDL_FLIP_NONE, game->renderer); 
-	SDL_Rect body = {0, 0, 2280, 800};
-	/* DrawImageOnCamera(backgroundTexture, body, NULL, 0, SDL_FLIP_NONE, game->renderer); */
+  DrawImage(backgroundTexture, 0, 0, 1280, 800, 0, SDL_FLIP_NONE, game->renderer); 
+  SDL_Rect body = {0, 0, 2280, 800};
+  /* DrawImageOnCamera(backgroundTexture, body, NULL, 0, SDL_FLIP_NONE, game->renderer); */
 }
 
 extern int isKeyDown(SDL_Scancode);

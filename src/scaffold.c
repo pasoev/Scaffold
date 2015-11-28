@@ -22,13 +22,17 @@ int init(SDL_Window **window, SDL_Renderer **renderer){
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) >= 0) {
 		/* Dynamically set the windos size to full screen*/
 		queryResolution(&WINDOW_W, &WINDOW_H);
-		*window = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-					   WINDOW_W, WINDOW_H, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
+		*window = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED,
+					   SDL_WINDOWPOS_UNDEFINED,
+					   WINDOW_W, WINDOW_H, SDL_WINDOW_OPENGL);
 		if(*window == NULL){
-			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
+			printf("Window could not be created! SDL Error: %s\n",
+			       SDL_GetError());
 			success = -2;
 		} else{
-			*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			*renderer = SDL_CreateRenderer(*window, -1,
+						       SDL_RENDERER_ACCELERATED |
+						       SDL_RENDERER_PRESENTVSYNC);
 			success = 1;
 		}
 	}
@@ -77,13 +81,6 @@ void queryResolution(int *x, int *y) {
 	}
 }
 
-struct Employee{
-	char *name;
-	short age;
-};
-
-
-
 int main(int argc, char* argv[]) {
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
@@ -116,7 +113,8 @@ int main(int argc, char* argv[]) {
 	fsm->pushState(fsm, &playState);
 
 	while(list_size(fsm->gameStates) > 0 && running){
-		struct GameState *currentState = (struct GameState*) (list_tail(fsm->gameStates)->data);
+		struct GameState *currentState = (struct GameState*)
+		  (list_tail(fsm->gameStates)->data);
 		processEvents();
 		currentState->update(fsm);
 		SDL_RenderClear(renderer);
