@@ -198,3 +198,6 @@ test
 *.exe
 
 TAGS
+
+*.zip
+*.tar.gz

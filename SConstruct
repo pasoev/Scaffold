@@ -15,7 +15,7 @@ if platform == 'win32':
 
 build_dir = 'build' 
 VariantDir(build_dir, 'src', duplicate=0)
-env = Environment(CC = cc, CCFLAGS = ccflags, tools=['default', 'mingw'])
+env = Environment(CC = cc, CCFLAGS = ccflags, tools=['default', 'mingw'], TARFLAGS = '-c -z')
 
 
 
@@ -44,4 +44,9 @@ for lib in Glob('lib/*.dll'):
 
 env.Program(source = src_files, target = 'build/scaffold', LIBS=libs,
 LIBPATH=libpath, CPPPATH=cpppath)
+if(platform == 'win32'):
+   env.Zip('scaffold.zip', ['build'])
+else:
+   env.Tar('scaffold.tar.gz', ['build'])
+
 Clean('.', build_dir)
