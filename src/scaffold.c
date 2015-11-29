@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
 
 	while(list_size(fsm->gameStates) > 0 && running){
 		struct GameState *currentState = (struct GameState*)
-		  (list_tail(fsm->gameStates)->data);
+			(list_tail(fsm->gameStates)->data);
 		processEvents();
 		currentState->update(fsm);
 		SDL_RenderClear(renderer);
