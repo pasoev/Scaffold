@@ -21,7 +21,7 @@ int init(SDL_Window **window, SDL_Renderer **renderer){
 	int success = -1;
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) >= 0) {
 		/* Dynamically set the windos size to full screen*/
-		queryResolution(&WINDOW_W, &WINDOW_H);
+		/* queryResolution(&WINDOW_W, &WINDOW_H); */
 		*window = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED,
 					   SDL_WINDOWPOS_UNDEFINED,
 					   WINDOW_W, WINDOW_H, SDL_WINDOW_OPENGL);
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
 	if(init(&window, &renderer) < 0){
 		return -1;
 	}
-
+	
 	list_init(&states, destroy);
 	fsm = &(struct GameStateMachine){
 		&states, &pushState, &changeState, &popState, &popAllStates
