@@ -45,8 +45,8 @@ for lib in Glob('lib/*.dll'):
 env.Program(source = src_files, target = 'build/scaffold', LIBS=libs,
 LIBPATH=libpath, CPPPATH=cpppath)
 if(platform == 'win32'):
-   env.Zip('scaffold.zip', ['build'])
+   env.Zip('release/scaffold-win32.zip', ['build'])
 else:
-   env.Tar('scaffold.tar.gz', ['build'])
+   env.Tar('release/scaffold-gnu-linux.tar.gz', ['build'])
 
 Clean('.', build_dir)
