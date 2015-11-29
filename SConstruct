@@ -1,13 +1,13 @@
 import sys
 
 platform = sys.platform
-
-w = ' -Wall -Wextra -Wstrict-prototypes -Wshadow -Wwrite-strings -Wold-style-definition -Wredundant-decls -Wnested-externs -Wmissing-include-dirs -Wstrict-aliasing'
+# Wextra
+w = ' -Wall -Wstrict-prototypes -Wshadow -Wwrite-strings -Wold-style-definition -Wredundant-decls -Wnested-externs -Wmissing-include-dirs -Wstrict-aliasing'
 cc = "gcc"
 
 libs = Split('SDL2 SDL2_image SDL2_ttf m')
 
-ccflags = '-g' # + w
+ccflags = '-g -pedantic' + w  
 if platform == 'win32':
    ccflags += " -mwindows"
    libs.insert(0, 'SDL2main')

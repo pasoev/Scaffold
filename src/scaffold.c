@@ -122,12 +122,15 @@ int main(int argc, char* argv[]) {
 		SDL_RenderPresent(renderer);
 		SDL_Delay(20);
 	}
-	quit(window, renderer);
+	/* quit(window, renderer); */
+
+	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(renderer);
+	SDL_Quit();
+	
 	return (EXIT_SUCCESS);
 }
 
 void quit(SDL_Window *window, SDL_Renderer *renderer){
-	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(renderer);
-	SDL_Quit();
+
 }

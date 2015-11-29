@@ -96,8 +96,10 @@ int menuOnEnter(struct GameState *state) {
 int menuOnExit(void) {
 	int i;
 	for (i = 0; i < 2; i++){
-		SDL_DestroyTexture(menus[i].texture);
+		if(menus[i].texture != NULL){
+			/* SDL_DestroyTexture(menus[i].texture); */
+		}
 	}
-	puts("Exited menustate");
+	printf("Exited menustate");
 	return 1;
 }
