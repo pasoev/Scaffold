@@ -39,7 +39,7 @@ int LIVES_LOC_Y = CAPTION_OFFSET;
 int SCORE_LOC_Y = CAPTION_OFFSET;
 
 /* Camera */
-int LEVEL_W = 800 * 3;
+int LEVEL_W = 800 * 2;
 int LEVEL_H = 600 * 2;
 
 struct Camera camera = {{0, 0, 640, 400}};
