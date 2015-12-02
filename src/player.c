@@ -67,7 +67,7 @@ void shoot(struct Sprite* sprite){
 	}
 	dx = player->vel.x * 1.5;
 	makeBullet(x, y, dx);
-	printf("Shooting.\n");
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Shooting.\n");
 }
 
 void updateBullets(List *bullets){
