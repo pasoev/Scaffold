@@ -17,6 +17,9 @@ int WINDOW_W = 800, WINDOW_H = 600;
 int running = 1;
 const Uint8 *keystates;
 
+#define FPS 60
+#define DELAY_TIME (1000.f / FPS)
+
 int init(SDL_Window **window, SDL_Renderer **renderer){
 	int success = -1;
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) >= 0) {
@@ -85,6 +88,8 @@ int main(int argc, char* argv[]) {
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
 	List states;
+
+	Uint32 frameStart, frameTime;
   
 	struct GameStateMachine *fsm;
 	if(init(&window, &renderer) < 0){
@@ -117,6 +122,7 @@ int main(int argc, char* argv[]) {
 	fsm->pushState(fsm, &playState);
 
 	while(list_size(fsm->gameStates) > 0 && running){
+		frameStart = SDL_GetTicks();
 		struct GameState *currentState = (struct GameState*)
 			(list_tail(fsm->gameStates)->data);
 		processEvents();
@@ -124,7 +130,10 @@ int main(int argc, char* argv[]) {
 		SDL_RenderClear(renderer);
 		currentState->render(currentState);
 		SDL_RenderPresent(renderer);
-		SDL_Delay(20);
+		frameTime = SDL_GetTicks() - frameStart;
+		if(frameTime < DELAY_TIME){
+			SDL_Delay((int)(DELAY_TIME - frameTime));
+		}
 	}
 	/* quit(window, renderer); */
 
