@@ -5,7 +5,8 @@
 static char stack[8*1024];
 static int verbose = 0;
 
-char pos_xChr[20] = "", pos_yChr[20] = "", wChr[20] = "", hChr[20] = "", textureFilenameChr[128] = "";
+char pos_xChr[20] = "", pos_yChr[20] = "";
+char wChr[20] = "", hChr[20] = "", textureFilenameChr[128] = "";
 int pos_x = 0, pos_y = 0, w = 0, h = 0;
 char textureFilename[128] = "";
 
