@@ -83,7 +83,8 @@ void updateBullets(List *bullets){
       }
     }
 
-    for(elmt = list_head(bullets); elmt != NULL && !list_istail(elmt); elmt = list_next(elmt)){
+    for(elmt = list_head(bullets); elmt != NULL &&
+	  !list_istail(elmt); elmt = list_next(elmt)){
       struct Bullet *nextBullet = list_data(list_next(elmt));
       nextBullet->pos = add(nextBullet->pos, nextBullet->vel);
 
