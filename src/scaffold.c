@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
 
-  return (EXIT_SUCCESS);
+  return EXIT_SUCCESS;
 }
 
 void quit(SDL_Window *window, SDL_Renderer *renderer){
