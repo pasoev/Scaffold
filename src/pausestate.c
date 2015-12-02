@@ -29,7 +29,8 @@ void pauseUpdate(void *fsm_param) {
 
 	int i;
 	for (i = 0; i < 2; i++) {
-		if (x > menus[i].pos.x && x < menus[i].pos.x + menus[i].w / 3 && y > menus[i].pos.y && y < menus[i].pos.y + menus[i].h) {
+		if (x > menus[i].pos.x && x < menus[i].pos.x + menus[i].w / 3 &&
+		    y > menus[i].pos.y && y < menus[i].pos.y + menus[i].h) {
 			if (button & SDL_BUTTON(1) && b_released) {
 				menus[i].currentFrame = CLICKED;
 				menus[i].onClick(fsm);
@@ -52,7 +53,15 @@ void pauseDraw(struct GameState *state) {
 	SDL_RenderClear(state->renderer);
 	int i;
 	for (i = 0; i < 2; i++) {
-		DrawImageFrame(menus[i].texture, menus[i].pos.x, menus[i].pos.y, menus[i].w / 3, menus[i].h, 1, menus[i].currentFrame, 0, SDL_FLIP_NONE, state->renderer);
+		DrawImageFrame(menus[i].texture,
+			       menus[i].pos.x,
+			       menus[i].pos.y,
+			       menus[i].w / 3,
+			       menus[i].h, 1,
+			       menus[i].currentFrame,
+			       0,
+			       SDL_FLIP_NONE,
+			       state->renderer);
 	}
 }
 void resume(struct GameStateMachine *fsm){
