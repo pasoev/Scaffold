@@ -131,9 +131,8 @@ void playerUpdate(void *playerParam){
 			player->currentFrame = 4;
 		}
 	}
-	if(isKeyDown(SDL_SCANCODE_UP) && !(player->vel).y)
-		{
-			player->vel.y =-16;
+	if(isKeyDown(SDL_SCANCODE_UP) && !(player->vel).y){
+			player->vel.y =-10;
 		}
 
 	if(isKeyDown(SDL_SCANCODE_SPACE) && !player->walking){
