@@ -56,11 +56,11 @@ void pauseDraw(struct GameState *state) {
 	}
 }
 void resume(struct GameStateMachine *fsm){
-	printf("Resume\n");
+	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Resume\n");
 	fsm->popState(fsm);
 }
 int pauseOnEnter(struct GameState *state) {
-	puts("Entered pausestate");
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Entered pausestate");
 	int status = LoadImage("graphics/resume.png", &(menus[0].texture), state->renderer);
 	status += LoadImage("graphics/main_menu.png", &(menus[1].texture), state->renderer);
 	SDL_QueryTexture(menus[0].texture, NULL, NULL, &menus[0].w, &menus[0].h);
@@ -86,6 +86,6 @@ int pauseOnExit(void) {
 	for (i = 0; i < 2; i++) {
 		SDL_DestroyTexture(menus[i].texture);
 	}
-	puts("Exited pausestate");
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Exited pausestate");
 	return 1;
 }

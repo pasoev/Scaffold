@@ -219,7 +219,7 @@ void playDraw(struct GameState *state) {
 
 int initFonts(void){
 	if ( TTF_Init() < 0 ) {
-		fprintf(stderr, "Couldn't initialize TTF: %s\n",SDL_GetError());
+		SDL_LogError(SDL_LOG_CATEGORY_SYSTEM, "Couldn't initialize TTF: %s\n",SDL_GetError());
 		SDL_Quit();
 		return(2);
 	}
@@ -284,7 +284,7 @@ int playOnEnter(struct GameState *state) {
 }
 
 int playOnExit(void) {
-	puts("Exited playstate");
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Exited playstate");
 	SDL_DestroyTexture(player->texture);
 	SDL_DestroyTexture(backgroundTexture);
 	SDL_DestroyTexture(brickTexture);

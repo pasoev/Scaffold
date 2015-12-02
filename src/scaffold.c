@@ -26,7 +26,7 @@ int init(SDL_Window **window, SDL_Renderer **renderer){
 					   SDL_WINDOWPOS_UNDEFINED,
 					   WINDOW_W, WINDOW_H, SDL_WINDOW_OPENGL);
 		if(*window == NULL){
-			printf("Window could not be created! SDL Error: %s\n",
+			SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Window could not be created! SDL Error: %s\n",
 			       SDL_GetError());
 			success = -2;
 		} else{
@@ -69,13 +69,13 @@ void queryResolution(int *x, int *y) {
 		int should_be_zero = SDL_GetCurrentDisplayMode(i, &current);
 		if(should_be_zero != 0) {
 			/* In case of error... */
-			printf("Could not get display mode for video display #%d: %s",
+			SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not get display mode for video display #%d: %s",
 			       i, SDL_GetError());
 		} else {
 			/* On success, assign globals and print the current display mode. */
 			*x = current.w;
 			*y = current.h;
-			printf("Display #%d: current display mode is %dx%dpx @ %dhz. \n",
+			SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "Display #%d: current display mode is %dx%dpx @ %dhz. \n",
 			       i, current.w, current.h, current.refresh_rate);
 		}
 	}

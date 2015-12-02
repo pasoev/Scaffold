@@ -72,7 +72,7 @@ void menuDraw(struct GameState *state) {
 }
 
 int menuOnEnter(struct GameState *state) {
-	puts("Entered menustate");
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Entered menustate");
 	int status = LoadImage("graphics/menu.png", &(menus[0].texture), state->renderer);
 	status += LoadImage("graphics/exit.png", &(menus[1].texture), state->renderer);
 	SDL_QueryTexture(menus[0].texture, NULL, NULL, &menus[0].w, &menus[0].h);
@@ -100,6 +100,6 @@ int menuOnExit(void) {
 			/* SDL_DestroyTexture(menus[i].texture); */
 		}
 	}
-	printf("Exited menustate");
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Exited menustate");
 	return 1;
 }

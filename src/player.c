@@ -78,7 +78,7 @@ void updateBullets(List *bullets){
     
 		if(firstBullet->pos.x > WINDOW_W || firstBullet->pos.x < 0){
 			list_rem_next(bullets, NULL, (void **)&firstBullet);
-			printf("Bullet disappeared. %d remaining.\n", list_size(bullets));
+			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Bullet disappeared. %d remaining.\n", list_size(bullets));
 			if(firstBullet != NULL){
 				free(firstBullet);
 			}
@@ -90,7 +90,7 @@ void updateBullets(List *bullets){
 
 			if(nextBullet->pos.x > WINDOW_W || nextBullet->pos.x < 0){
 				list_rem_next(bullets, elmt, (void **)&nextBullet);
-				printf("Bullet disappeared. %d remaining.\n", list_size(bullets));
+				SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Bullet disappeared. %d remaining.\n", list_size(bullets));
 				if(nextBullet != NULL){
 					free(nextBullet);
 				}

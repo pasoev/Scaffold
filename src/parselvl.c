@@ -65,9 +65,10 @@ static void y_printres(yxml_t *x, yxml_ret_t r, List *ledges) {
 		break;
 	case YXML_PIEND:
 		break;
-	default:
+		/* default:*/
 		/* exit(0); */
-		printf("Something unexpected happened.");
+		/* printf("Something unexpected happened."); */
+		
 	}
 	indata = nextdata;
 }
