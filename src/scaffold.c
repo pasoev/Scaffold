@@ -89,6 +89,10 @@ int main(int argc, char* argv[]) {
 	SDL_Renderer *renderer = NULL;
 	List states;
 
+	struct GameStateMachine tmpFSM;
+	struct GameState menuState;
+	struct GameState playState;
+	
 	Uint32 frameStart, frameTime;
   
 	struct GameStateMachine *fsm;
@@ -97,7 +101,7 @@ int main(int argc, char* argv[]) {
 	}
 	
 	list_init(&states, destroy);
-	struct GameStateMachine tmpFSM = {
+	tmpFSM = (struct GameStateMachine){
 		&states, &pushState, &changeState, &popState, &popAllStates
 	};
 	/* fsm = &(struct GameStateMachine){
@@ -106,14 +110,14 @@ int main(int argc, char* argv[]) {
 	fsm = &tmpFSM;
 	/* initFSM(&states, destroy, &fsm); */
 
-	struct GameState menuState = {
+	menuState = (struct GameState){
 		&menuUpdate, &menuDraw, &menuOnEnter, &menuOnExit,
 		GAME_STATE_MENU, renderer
 	};
 
 	/* Used for debugging the play mode */
 
-	struct GameState playState = {
+	playState = (struct GameState){
 		&playUpdate, &playDraw, &playOnEnter, &playOnExit,
 		GAME_STATE_PLAY, renderer
 	};
