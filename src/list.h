@@ -48,4 +48,3 @@ int list_rem_next(List *list, ListElmt *element, void **data);
 #define list_data(element) ((element)->data)
 #define list_next(element) ((element)->next)
 #endif
-

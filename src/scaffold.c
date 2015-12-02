@@ -29,7 +29,8 @@ int init(SDL_Window **window, SDL_Renderer **renderer){
 			       SDL_WINDOWPOS_UNDEFINED,
 			       WINDOW_W, WINDOW_H, SDL_WINDOW_OPENGL);
     if(*window == NULL){
-      SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Window could not be created! SDL Error: %s\n",
+      SDL_LogError(SDL_LOG_CATEGORY_VIDEO,
+		   "Window could not be created! SDL Error: %s\n",
 		   SDL_GetError());
       success = -2;
     } else{
@@ -72,13 +73,15 @@ void queryResolution(int *x, int *y) {
     int should_be_zero = SDL_GetCurrentDisplayMode(i, &current);
     if(should_be_zero != 0) {
       /* In case of error... */
-      SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not get display mode for video display #%d: %s",
+      SDL_LogError(SDL_LOG_CATEGORY_VIDEO,
+		   "Could not get display mode for video display #%d: %s",
 		   i, SDL_GetError());
     } else {
       /* On success, assign globals and print the current display mode. */
       *x = current.w;
       *y = current.h;
-      SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "Display #%d: current display mode is %dx%dpx @ %dhz. \n",
+      SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO,
+		  "Display #%d: current display mode is %dx%dpx @ %dhz. \n",
 		  i, current.w, current.h, current.refresh_rate);
     }
   }
@@ -92,14 +95,14 @@ int main(int argc, char* argv[]) {
   struct GameStateMachine tmpFSM;
   struct GameState menuState;
   struct GameState playState;
-	
+
   Uint32 frameStart, frameTime;
-  
+
   struct GameStateMachine *fsm;
   if(init(&window, &renderer) < 0){
     return -1;
   }
-	
+
   list_init(&states, destroy);
   tmpFSM = (struct GameStateMachine){
     &states, &pushState, &changeState, &popState, &popAllStates
@@ -121,8 +124,7 @@ int main(int argc, char* argv[]) {
     &playUpdate, &playDraw, &playOnEnter, &playOnExit,
     GAME_STATE_PLAY, renderer
   };
-  
-  
+
   fsm->pushState(fsm, &playState);
 
   while(list_size(fsm->gameStates) > 0 && running){
@@ -144,7 +146,7 @@ int main(int argc, char* argv[]) {
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
-	
+
   return (EXIT_SUCCESS);
 }
 

@@ -31,4 +31,3 @@ extern "C" {
 #endif
 
 #endif	/* MENU_H */
-

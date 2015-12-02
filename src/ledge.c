@@ -43,5 +43,5 @@ void renderLedges(List *ledges, int n, SDL_Renderer *renderer){
     struct Ledge *ledge = (struct Ledge *)list_data(elmt);
     DrawImage(ledge->texture, ledge->x, ledge->y, ledge->w,
 	      ledge->h, 0, SDL_FLIP_NONE, renderer);
-  } 
+  }
 }

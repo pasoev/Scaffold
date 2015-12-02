@@ -36,9 +36,7 @@ struct Bullet{
 List *bullets;
 SDL_Texture *bulletTexture = (void *)NULL;
 
-void initPlayer(){
-  
-}
+void initPlayer(){}
 
 void makeBullet(int x, int y, int dx){
   struct Bullet *bullet = malloc(sizeof(struct Bullet));
@@ -46,7 +44,7 @@ void makeBullet(int x, int y, int dx){
   bullet->pos.y = y;
   bullet->vel.x = dx;
   bullet->vel.y = 0;
-  
+
   list_ins_next(bullets, list_tail(bullets), bullet);
 }
 
@@ -75,29 +73,31 @@ void updateBullets(List *bullets){
     ListElmt *elmt = list_head(bullets);
     struct Bullet *firstBullet = list_data(elmt);
     firstBullet->pos = add(firstBullet->pos, firstBullet->vel);
-    
+
     if(firstBullet->pos.x > WINDOW_W || firstBullet->pos.x < 0){
       list_rem_next(bullets, NULL, (void **)&firstBullet);
-      SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Bullet disappeared. %d remaining.\n", list_size(bullets));
+      SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+		  "Bullet disappeared. %d remaining.\n", list_size(bullets));
       if(firstBullet != NULL){
 	free(firstBullet);
       }
     }
-  
+
     for(elmt = list_head(bullets); elmt != NULL && !list_istail(elmt); elmt = list_next(elmt)){
       struct Bullet *nextBullet = list_data(list_next(elmt));
       nextBullet->pos = add(nextBullet->pos, nextBullet->vel);
 
       if(nextBullet->pos.x > WINDOW_W || nextBullet->pos.x < 0){
 	list_rem_next(bullets, elmt, (void **)&nextBullet);
-	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Bullet disappeared. %d remaining.\n", list_size(bullets));
+	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
+		    "Bullet disappeared. %d remaining.\n", list_size(bullets));
 	if(nextBullet != NULL){
 	  free(nextBullet);
 	}
       }
     }
   }
-}      
+}
 
 void playerUpdate(void *playerParam){
   /* Player update logic */
@@ -148,6 +148,7 @@ void drawBullets(List *bullets, SDL_Renderer *renderer){
   ListElmt *elmt;
   for(elmt = list_head(bullets); elmt != NULL; elmt = list_next(elmt)){
     struct Bullet *bullet = (struct Bullet *)list_data(elmt);
-    DrawImage(bulletTexture, bullet->pos.x, bullet->pos.y, 8, 8, 0, SDL_FLIP_NONE, renderer );
-  }    
+    DrawImage(bulletTexture, bullet->pos.x, bullet->pos.y, 8, 8, 0,
+	      SDL_FLIP_NONE, renderer );
+  }
 }

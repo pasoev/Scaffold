@@ -35,4 +35,3 @@ extern "C" {
 #endif
 
 #endif	/* GEOMETRY_H */
-

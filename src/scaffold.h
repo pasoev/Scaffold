@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   scaffold.h
  * Author: sergi
  *
@@ -27,4 +27,3 @@ extern "C" {
 #endif
 
 #endif	/* SCAFFOLD_H */
-

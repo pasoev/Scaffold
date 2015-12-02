@@ -13,15 +13,22 @@ static struct GameState menuState;
 static struct GameState playState;
 
 void restart(struct GameStateMachine *fsm) {
-  struct GameState *thisState = (struct GameState*) list_tail(fsm->gameStates)->data;
+  struct GameState *thisState = (struct GameState*)
+    list_tail(fsm->gameStates)->data;
   playState = (struct GameState){
-    &playUpdate, &playDraw, &playOnEnter, &playOnExit, GAME_STATE_PLAY, thisState->renderer
+    &playUpdate,
+    &playDraw,
+    &playOnEnter,
+    &playOnExit,
+    GAME_STATE_PLAY,
+    thisState->renderer
   };
   fsm->changeState(fsm, &playState);
 }
 
 void toMainMenu(struct GameStateMachine *fsm) {
-  struct GameState *thisState = (struct GameState*) list_tail(fsm->gameStates)->data;
+  struct GameState *thisState = (struct GameState*)
+    list_tail(fsm->gameStates)->data;
   menuState = (struct GameState){
     &menuUpdate, &menuDraw, &menuOnEnter, &menuOnExit,
     GAME_STATE_MENU, thisState->renderer
@@ -38,7 +45,8 @@ void gameoverUpdate(void *fsm_param) {
 
   int i;
   for (i = 0; i < 2; i++) {
-    if (x > menus[i].pos.x && x < menus[i].pos.x + menus[i].w / 3 && y > menus[i].pos.y && y < menus[i].pos.y + menus[i].h) {
+    if (x > menus[i].pos.x && x < menus[i].pos.x + menus[i].w / 3 &&
+	y > menus[i].pos.y && y < menus[i].pos.y + menus[i].h) {
       if (button & SDL_BUTTON(1) && b_released) {
 	menus[i].currentFrame = CLICKED;
 	menus[i].onClick(fsm);
@@ -59,15 +67,24 @@ void gameoverDraw(struct GameState *state) {
   SDL_RenderClear(state->renderer);
   int i;
   for (i = 0; i < 2; i++) {
-    DrawImageFrame(menus[i].texture, menus[i].pos.x, menus[i].pos.y, menus[i].w / 3, menus[i].h, 1, menus[i].currentFrame, 0, SDL_FLIP_NONE, state->renderer);
+    DrawImageFrame(menus[i].texture,
+		   menus[i].pos.x,
+		   menus[i].pos.y,
+		   menus[i].w / 3,
+		   menus[i].h, 1,
+		   menus[i].currentFrame,
+		   0, SDL_FLIP_NONE,
+		   state->renderer);
   }
 }
 
 
 int gameoverOnEnter(struct GameState *state) {
   puts("Entered gameoverstate");
-  int status = LoadImage("graphics/resume.png", &(menus[0].texture), state->renderer);
-  status += LoadImage("graphics/main_menu.png", &(menus[1].texture), state->renderer);
+  int status = LoadImage("graphics/resume.png", &(menus[0].texture),
+			 state->renderer);
+  status += LoadImage("graphics/main_menu.png", &(menus[1].texture),
+		      state->renderer);
   SDL_QueryTexture(menus[0].texture, NULL, NULL, &menus[0].w, &menus[0].h);
   SDL_QueryTexture(menus[1].texture, NULL, NULL, &menus[1].w, &menus[1].h);
 

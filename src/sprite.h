@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   player.h
  * Author: sergi
  *
@@ -35,8 +35,10 @@ struct Sprite{
 
 #define DEFAULT_HIT_POINTS 5
 
-int makeSprite(struct Sprite *sprite, int numFrames, int hitPoints, struct Vec2d pos, struct Vec2d vel);
-void drawSprite(struct Sprite *sprite, struct Camera *camera, SDL_Renderer *renderer);
+int makeSprite(struct Sprite *sprite, int numFrames, int hitPoints,
+	       struct Vec2d pos, struct Vec2d vel);
+void drawSprite(struct Sprite *sprite, struct Camera *camera,
+		SDL_Renderer *renderer);
 
 #ifdef	__cplusplus
 extern "C" {

@@ -26,7 +26,6 @@ static void y_printres(yxml_t *x, yxml_ret_t r, List *ledges) {
     break;
   case YXML_ELEMEND:
     addLedge(ledges, pos_x, pos_y, w, h, "graphics/bricks.png", NULL);
-    /* printf("\n-----\nx = %d, y = %d, w = %d, h = %d\n-----\n", pos_x, pos_y, w, h); */
     break;
   case YXML_ATTREND:
     if(!strcmp("x", x->attr)){
@@ -69,7 +68,6 @@ static void y_printres(yxml_t *x, yxml_ret_t r, List *ledges) {
     /* default:*/
     /* exit(0); */
     /* printf("Something unexpected happened."); */
-		
   }
   indata = nextdata;
 }
@@ -89,11 +87,10 @@ int parseLedges(List *ledges, char *filename,
   fp = fopen (  filename , "rb" );
   if( !fp ) perror(filename),exit(1);
 
-  fseek( fp , 0L , SEEK_END); 
+  fseek( fp , 0L , SEEK_END);
   lSize = ftell( fp );
-  rewind( fp ); 
-	
-	
+  rewind( fp );
+
   while((c = getc(fp)) != EOF) {
     r = yxml_parse(x, c);
     y_printres(x, r, ledges);
@@ -102,4 +99,3 @@ int parseLedges(List *ledges, char *filename,
   fclose(fp);
   return list_size(ledges);
 }
-

@@ -36,4 +36,3 @@ struct Vec2d normalize(struct Vec2d v) {
   }
   return v;
 }
-

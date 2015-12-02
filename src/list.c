@@ -34,7 +34,8 @@ void list_destroy(List *list) {
   void *data;
 
   while (list->size > 0)
-    if (list_rem_next(list, NULL, (void **) &data) == 0 && list->destroy != NULL)
+    if (list_rem_next(list, NULL, (void **) &data) == 0 &&
+	list->destroy != NULL)
       list->destroy(data);
   memset(list, 0, sizeof (List));
 }
@@ -101,4 +102,3 @@ int list_rem_next(List *list, ListElmt *element, void **data) {
   list->size--;
   return 0;
 }
-

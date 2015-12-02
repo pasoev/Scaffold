@@ -12,4 +12,8 @@
 #include "list.h"
 #endif
 
-int parseLedges(List *ledges, char *filename, void (*addLedge)(List *ledges, int x, int y, int w, int h, const char *texturefilename, SDL_Renderer *renderer));
+int parseLedges(List *ledges, char *filename,
+		void (*addLedge)(List *ledges,
+				 int x, int y, int w, int h,
+				 const char *texturefilename,
+				 SDL_Renderer *renderer));

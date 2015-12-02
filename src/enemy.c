@@ -33,7 +33,7 @@ void enemyUpdate(void *enemyParam){
   if(enemy->pos.y > WINDOW_H - enemy->h){
     enemy->vel.y = -STEP_SIZE;
   }
-  
+
   enemy->pos = add(enemy->pos, enemy->vel);
   if(globalTime % 6 == 0){
     enemy->currentFrame++;

@@ -15,7 +15,8 @@ void pushState(struct GameStateMachine *fsm, struct GameState *state) {
 
 void changeState(struct GameStateMachine *fsm, struct GameState *state) {
   if (list_size(fsm->gameStates) > 0) {
-    struct GameState *curState = (struct GameState*) list_tail(fsm->gameStates)->data;
+    struct GameState *curState = (struct GameState*)
+      list_tail(fsm->gameStates)->data;
     if (curState->stateId == state->stateId) {
       return;
     }

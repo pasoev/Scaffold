@@ -1,10 +1,11 @@
 #include "sprite.h"
 
-/* 
+/*
    The memory has to be allocated for the sprite before calling this
    function.
 */
-int makeSprite(struct Sprite *sprite, int numFrames, int hitPoints, struct Vec2d pos, struct Vec2d vel){
+int makeSprite(struct Sprite *sprite, int numFrames, int hitPoints,
+	       struct Vec2d pos, struct Vec2d vel){
   ((struct Sprite *)sprite)->pos = pos;
   ((struct Sprite *)sprite)->vel = vel;
   ((struct Sprite *)sprite)->texture = (void *)NULL;
@@ -14,7 +15,8 @@ int makeSprite(struct Sprite *sprite, int numFrames, int hitPoints, struct Vec2d
   return 0;
 }
 
-void drawSprite(struct Sprite *sprite, struct Camera *camera, SDL_Renderer *renderer){
+void drawSprite(struct Sprite *sprite, struct Camera *camera,
+		SDL_Renderer *renderer){
   SDL_RendererFlip flip = SDL_FLIP_NONE;
   int x, y;
 
@@ -24,15 +26,15 @@ void drawSprite(struct Sprite *sprite, struct Camera *camera, SDL_Renderer *rend
     flip = SDL_FLIP_NONE;
   }
 
-	
   x = sprite->pos.x - camera->rect.x;
   y = sprite->pos.y - camera->rect.y;
-	
+
   SDL_Rect body = {x, y, sprite->w, sprite->h};
   /* DrawImageOnCamera(sprite->texture, body, NULL, 0, NULL, flip, renderer); */
-  SDL_Rect camBody = {camera->rect.x, camera->rect.y, camera->rect.w, camera->rect.h};
-	
-  /* DrawImageFrameOnCamera(sprite->texture, body, &camBody, 1, sprite->currentFrame, 0, NULL, flip, renderer); */
+  SDL_Rect camBody = {camera->rect.x, camera->rect.y, camera->rect.w,
+		      camera->rect.h};
+  /* DrawImageFrameOnCamera(sprite->texture, body, &camBody, 1,
+     sprite->currentFrame, 0, NULL, flip, renderer); */
   DrawImageFrame(sprite->texture, sprite->pos.x, sprite->pos.y, sprite->w,
-		 sprite->h, 1, sprite->currentFrame, 0, flip, renderer); 
+		 sprite->h, 1, sprite->currentFrame, 0, flip, renderer);
 }
