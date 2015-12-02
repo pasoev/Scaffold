@@ -23,20 +23,20 @@ extern int WINDOW_W;
 extern int WINDOW_H;
 
 void enemyUpdate(void *enemyParam){
-	/* Enemy update logic */
-	struct Sprite *enemy = (struct Sprite*) enemyParam;
-	/* Update enemy using KEYBOARD */
-	if(enemy->pos.y < 0){
-		enemy->vel.y = STEP_SIZE;
-	}
+  /* Enemy update logic */
+  struct Sprite *enemy = (struct Sprite*) enemyParam;
+  /* Update enemy using KEYBOARD */
+  if(enemy->pos.y < 0){
+    enemy->vel.y = STEP_SIZE;
+  }
 
-	if(enemy->pos.y > WINDOW_H - enemy->h){
-		enemy->vel.y = -STEP_SIZE;
-	}
+  if(enemy->pos.y > WINDOW_H - enemy->h){
+    enemy->vel.y = -STEP_SIZE;
+  }
   
-	enemy->pos = add(enemy->pos, enemy->vel);
-	if(globalTime % 6 == 0){
-		enemy->currentFrame++;
-		enemy->currentFrame %= 2;
-	}
+  enemy->pos = add(enemy->pos, enemy->vel);
+  if(globalTime % 6 == 0){
+    enemy->currentFrame++;
+    enemy->currentFrame %= 2;
+  }
 }

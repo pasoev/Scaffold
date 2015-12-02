@@ -22,15 +22,15 @@
 #endif
 
 struct Sprite{
-	int w, h;
-	int hitPoints;
-	struct Vec2d pos, vel;
-	void * texture;
-	int numFrames;
-	int currentFrame;
-	int walking, shooting, visible;
-	int alive;
-	void (*update)(void *world);
+  int w, h;
+  int hitPoints;
+  struct Vec2d pos, vel;
+  void * texture;
+  int numFrames;
+  int currentFrame;
+  int walking, shooting, visible;
+  int alive;
+  void (*update)(void *world);
 };
 
 #define DEFAULT_HIT_POINTS 5
