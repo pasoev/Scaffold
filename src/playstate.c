@@ -129,15 +129,6 @@ void playerUpdateMouse(void *playerParam){
 
 void playUpdate(void *fsm_param) {
   struct GameStateMachine *fsm = (struct GameStateMachine*) fsm_param;
-  if(player->vel.y){
-    player->pos = add(player->pos, player->vel);
-    if(player->pos.y < 100){
-      if(globalTime % 6 == 0){
-	player->pos.y = 300;
-	player->vel.y = 0;
-      }
-    }
-  }
 
   /* Look for Escape */
   if (isKeyDown(SDLK_ESCAPE)){

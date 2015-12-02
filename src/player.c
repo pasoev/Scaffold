@@ -144,6 +144,17 @@ void playerUpdate(void *playerParam){
       player->currentFrame = 4;
     }
   }
+
+  if(player->vel.y){
+    player->pos = add(player->pos, player->vel);
+    if(player->pos.y < 100){
+      if(globalTime % 6 == 0){
+	player->pos.y = 300;
+	player->vel.y = 0;
+      }
+    }
+  }
+
 }
 void drawBullets(List *bullets, SDL_Renderer *renderer){
   ListElmt *elmt;
