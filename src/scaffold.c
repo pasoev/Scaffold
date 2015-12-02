@@ -92,9 +92,13 @@ int main(int argc, char* argv[]) {
 	}
 	
 	list_init(&states, destroy);
-	fsm = &(struct GameStateMachine){
+	struct GameStateMachine tmpFSM = {
 		&states, &pushState, &changeState, &popState, &popAllStates
 	};
+	/* fsm = &(struct GameStateMachine){
+		&states, &pushState, &changeState, &popState, &popAllStates
+		};*/
+	fsm = &tmpFSM;
 	/* initFSM(&states, destroy, &fsm); */
 
 	struct GameState menuState = {
