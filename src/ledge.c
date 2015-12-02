@@ -29,13 +29,7 @@ void destroyLedge(void *data){
 List *ledges;
 void initLedges(List *ledges, SDL_Renderer *renderer){
 	/* LoadImage(textureFilename, &((*ledge)->texture), renderer); */
-  
-  
-	/*  int i;
-	    for(i = 0; i < 10; i++){
-	    addLedge(ledges, i*128, 400, 128, 95, "graphics/bricks.png", renderer);
-	    }
-	*/
+
 	int numLedges = 0;
 	numLedges = parseLedges(ledges, "levels/objects.xml", addLedge);
 	SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, "Loaded game objects: %d\n", numLedges);
