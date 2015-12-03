@@ -36,6 +36,8 @@ struct Bullet{
 List *bullets;
 SDL_Texture *bulletTexture = (void *)NULL;
 
+struct Vec2d gravity = {0, 1};
+
 void initPlayer(void){}
 
 void makeBullet(int x, int y, int dx){
@@ -133,7 +135,8 @@ void playerUpdate(void *playerParam){
       player->currentFrame = 4;
     }
   }
-  if(isKeyDown(SDL_SCANCODE_UP) && !(player->vel).y){
+  if(isKeyDown(SDL_SCANCODE_UP) && player->state != JUMPING){
+    player->state = JUMPING;
     player->vel.y =-10;
   }
 
@@ -146,20 +149,33 @@ void playerUpdate(void *playerParam){
     }
   }
 
-
-  if(player->vel.y){
-    struct Vec2d gravity = {0, 1};
+  if(player->state == JUMPING){
     struct Vec2d diff = subtract(player->vel, gravity);
     player->vel = add(player->vel, gravity);
-    player->pos = subtract(player->pos, diff);
+    player->pos = add(player->pos, diff);
     /* if(player->pos.y < 100){ */
     /*   if(globalTime % 6 == 0){ */
     /* 	player->pos.y = 300; */
     /* 	player->vel.y = 0; */
     /*   } */
     /* } */
+
+    if(player->vel.y >= 0){
+      player->state = FALLING;
+      player->vel.y = 10;
+    }
   }
 
+  if(player->state == FALLING){
+    struct Vec2d diff = subtract(player->vel, gravity);
+    player->vel = subtract(player->vel, gravity);
+    player->pos = add(player->pos, diff);
+
+    if(player->vel.y <= 0){
+      player->state = IDLE;
+      player->vel.y = 0;
+    }
+  }
 }
 void drawBullets(List *bullets, SDL_Renderer *renderer){
   ListElmt *elmt;
