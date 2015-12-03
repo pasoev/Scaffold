@@ -135,7 +135,8 @@ void playerUpdate(void *playerParam){
       player->currentFrame = 4;
     }
   }
-  if(isKeyDown(SDL_SCANCODE_UP) && player->state != JUMPING){
+  if(isKeyDown(SDL_SCANCODE_UP) && player->state != JUMPING &&
+     player->state != FALLING){
     player->state = JUMPING;
     player->vel.y = -10;
   }
