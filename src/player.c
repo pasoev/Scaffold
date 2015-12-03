@@ -51,7 +51,7 @@ void makeBullet(int x, int y, int dx){
 }
 
 void shoot(struct Sprite* sprite){
-  player->state = SHOOTING;
+  /* player->state = SHOOTING; */
   if(player->currentFrame == 4){
     player->currentFrame = 5;
   }else{
@@ -106,7 +106,7 @@ void playerUpdate(void *playerParam){
   /* Player update logic */
   struct Sprite *player = (struct Sprite*) playerParam;
   /* Update player using KEYBOARD */
-  if(player->state != SHOOTING && player->state != JUMPING &&
+  if(/* player->state != SHOOTING && */player->state != JUMPING &&
      player->state != FALLING){
     if(isKeyDown(SDL_SCANCODE_LEFT)){
       player->vel = (struct Vec2d){-STEP_SIZE, 0};
@@ -145,8 +145,9 @@ void playerUpdate(void *playerParam){
     if(globalTime % 6 == 0){
       shoot(player);
     }else{
-      player->state = IDLE;
+      /* player->state = IDLE;
       player->currentFrame = 4;
+      */
     }
   }
 
