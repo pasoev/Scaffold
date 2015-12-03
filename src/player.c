@@ -36,7 +36,7 @@ struct Bullet{
 List *bullets;
 SDL_Texture *bulletTexture = (void *)NULL;
 
-struct Vec2d gravity = {0, 1};
+struct Vec2d gravity = {0, -1};
 
 void initPlayer(void){}
 
@@ -137,7 +137,7 @@ void playerUpdate(void *playerParam){
   }
   if(isKeyDown(SDL_SCANCODE_UP) && player->state != JUMPING){
     player->state = JUMPING;
-    player->vel.y =-10;
+    player->vel.y = -10;
   }
 
   if(isKeyDown(SDL_SCANCODE_SPACE) && player->state != WALKING){
@@ -151,14 +151,8 @@ void playerUpdate(void *playerParam){
 
   if(player->state == JUMPING){
     struct Vec2d diff = subtract(player->vel, gravity);
-    player->vel = add(player->vel, gravity);
+    player->vel = subtract(player->vel, gravity);
     player->pos = add(player->pos, diff);
-    /* if(player->pos.y < 100){ */
-    /*   if(globalTime % 6 == 0){ */
-    /* 	player->pos.y = 300; */
-    /* 	player->vel.y = 0; */
-    /*   } */
-    /* } */
 
     if(player->vel.y >= 0){
       player->state = FALLING;
@@ -167,8 +161,8 @@ void playerUpdate(void *playerParam){
   }
 
   if(player->state == FALLING){
-    struct Vec2d diff = subtract(player->vel, gravity);
-    player->vel = subtract(player->vel, gravity);
+    struct Vec2d diff = subtract(player->vel, multByScalar(gravity, -1));
+    player->vel = subtract(player->vel, multByScalar(gravity, -1));
     player->pos = add(player->pos, diff);
 
     if(player->vel.y <= 0){
