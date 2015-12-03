@@ -36,7 +36,7 @@ struct Bullet{
 List *bullets;
 SDL_Texture *bulletTexture = (void *)NULL;
 
-void initPlayer(){}
+void initPlayer(void){}
 
 void makeBullet(int x, int y, int dx){
   struct Bullet *bullet = malloc(sizeof(struct Bullet));
@@ -49,7 +49,7 @@ void makeBullet(int x, int y, int dx){
 }
 
 void shoot(struct Sprite* sprite){
-  player->shooting = 1;
+  player->state = SHOOTING;
   if(player->currentFrame == 4){
     player->currentFrame = 5;
   }else{
@@ -104,12 +104,13 @@ void playerUpdate(void *playerParam){
   /* Player update logic */
   struct Sprite *player = (struct Sprite*) playerParam;
   /* Update player using KEYBOARD */
-  if(!player->shooting && !player->vel.y){
+  if(player->state != SHOOTING && player->state != JUMPING &&
+     player->state != FALLING){
     if(isKeyDown(SDL_SCANCODE_LEFT)){
       player->vel = (struct Vec2d){-STEP_SIZE, 0};
       if(player->pos.x > 0){
 	player->pos = add(player->pos, player->vel);
-	player->walking = 1;
+	player->state = WALKING;
 
 	if(globalTime % 6 == 0){
 	  player->currentFrame++;
@@ -118,7 +119,7 @@ void playerUpdate(void *playerParam){
       }
     }else if(isKeyDown(SDL_SCANCODE_RIGHT)){
       player->vel = (struct Vec2d){STEP_SIZE, 0};
-      player->walking = 1;
+      player->state = WALKING;
       if(player->pos.x < LEVEL_W - STEP_SIZE - player->w){
 	player->pos = add(player->pos, player->vel);
 
@@ -128,7 +129,7 @@ void playerUpdate(void *playerParam){
 	}
       }
     }else{
-      player->walking = 0;
+      player->state = WALKING;
       player->currentFrame = 4;
     }
   }
@@ -136,23 +137,27 @@ void playerUpdate(void *playerParam){
     player->vel.y =-10;
   }
 
-  if(isKeyDown(SDL_SCANCODE_SPACE) && !player->walking){
+  if(isKeyDown(SDL_SCANCODE_SPACE) && player->state != WALKING){
     if(globalTime % 6 == 0){
       shoot(player);
     }else{
-      player->shooting = 0;
+      player->state = IDLE;
       player->currentFrame = 4;
     }
   }
 
+
   if(player->vel.y){
-    player->pos = add(player->pos, player->vel);
-    if(player->pos.y < 100){
-      if(globalTime % 6 == 0){
-	player->pos.y = 300;
-	player->vel.y = 0;
-      }
-    }
+    struct Vec2d gravity = {0, 1};
+    struct Vec2d diff = subtract(player->vel, gravity);
+    player->vel = add(player->vel, gravity);
+    player->pos = subtract(player->pos, diff);
+    /* if(player->pos.y < 100){ */
+    /*   if(globalTime % 6 == 0){ */
+    /* 	player->pos.y = 300; */
+    /* 	player->vel.y = 0; */
+    /*   } */
+    /* } */
   }
 
 }

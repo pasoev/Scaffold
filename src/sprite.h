@@ -21,14 +21,27 @@
 #include "camera.h"
 #endif
 
+/* Currently the sprite can be in only one of these conditions at a
+   time. Visible is a separate state
+*/
+
+enum movement_state{
+  IDLE,
+  JUMPING,
+  FALLING,
+  WALKING,
+  SHOOTING
+};
+
 struct Sprite{
   int w, h;
   int hitPoints;
   struct Vec2d pos, vel;
-  void * texture;
+  void *texture;
   int numFrames;
   int currentFrame;
-  int walking, shooting, visible;
+  enum movement_state state;
+  int visible;
   int alive;
   void (*update)(void *world);
 };
