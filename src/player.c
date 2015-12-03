@@ -131,7 +131,7 @@ void playerUpdate(void *playerParam){
 	}
       }
     }else{
-      player->state = WALKING;
+      player->state = IDLE;
       player->currentFrame = 4;
     }
   }
