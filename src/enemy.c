@@ -21,6 +21,8 @@ extern Sint16 enemyRadius;
 extern int enemyChasing;
 extern int WINDOW_W;
 extern int WINDOW_H;
+extern int LEVEL_W;
+extern int LEVEL_H;
 
 void enemyUpdate(void *enemyParam){
   /* Enemy update logic */
@@ -39,4 +41,33 @@ void enemyUpdate(void *enemyParam){
     enemy->currentFrame++;
     enemy->currentFrame %= 2;
   }
+
+  /* wrop around horizontally */
+  if (enemyPos.x - enemyRadius < 0 || enemyPos.x + enemyRadius > LEVEL_W){
+    enemyVel.x = -enemyVel.x;
+  }
+
+  /* wrop around vertically */
+  if (enemyPos.y - enemyRadius < 0 || enemyPos.y + enemyRadius > LEVEL_H){
+    enemyVel.y = -enemyVel.y;
+  }
+
+  /* The enemy needs to check if you're near */
+  double distance = Vec2dLen(subtract(player->pos, enemyPos));
+  if (distance <= PROXIMITY + player->w / 2 + enemyRadius){
+    if (!enemyChasing){
+      enemyChasing = 1;
+      if (player->pos.x > enemyPos.x){
+	enemyVel.x = -enemyVel.x;
+      }
+      if (player->pos.y > enemyPos.y){
+	enemyVel.y = -enemyVel.y;
+      }
+    }
+  }
+  else{
+    enemyChasing = 0;
+  }
+  enemyPos = add(enemyPos, enemyVel);
+
 }

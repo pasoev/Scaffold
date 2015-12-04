@@ -1,19 +1,4 @@
-/* #include <SDL2/SDL2_gfxPrimitives.h> */
-#include <stdio.h>
 #include "gamestate.h"
-#ifndef TEXTURE_H
-#endif
-#include "text.h"
-#ifndef GEOMETRY_H
-#include "geometry.h"
-#endif
-#include "sprite.h"
-#include "ledge.h"
-#include "player.h"
-#include "enemy.h"
-
-#define PROXIMITY 300
-#define COLLISION 2
 
 int globalTime = 0;
 
@@ -160,33 +145,7 @@ void playUpdate(void *fsm_param) {
   enemy->update((void*)enemy);
   /* Update enemy */
 
-  /* wrop around horizontally */
-  if (enemyPos.x - enemyRadius < 0 || enemyPos.x + enemyRadius > WINDOW_W){
-    enemyVel.x = -enemyVel.x;
-  }
-
-  /* wrop around vertically */
-  if (enemyPos.y - enemyRadius < 0 || enemyPos.y + enemyRadius > WINDOW_H){
-    enemyVel.y = -enemyVel.y;
-  }
-
-  /* The enemy needs to check if you're near */
-  double distance = Vec2dLen(subtract(player->pos, enemyPos));
-  if (distance <= PROXIMITY + player->w / 2 + enemyRadius){
-    if (!enemyChasing){
-      enemyChasing = 1;
-      if (player->pos.x > enemyPos.x){
-	enemyVel.x = -enemyVel.x;
-      }
-      if (player->pos.y > enemyPos.y){
-	enemyVel.y = -enemyVel.y;
-      }
-    }
-  }
-  else{
-    enemyChasing = 0;
-  }
-  enemyPos = add(enemyPos, enemyVel);
+  /* enemy code was here */
 
   /* Check collision */
   if (distance <= COLLISION + player->w / 2 + enemyRadius){
