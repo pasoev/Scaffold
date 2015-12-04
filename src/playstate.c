@@ -10,9 +10,8 @@ extern List *ledges;
 extern int playerScore;
 extern int playerLives;
 
-struct Vec2d enemyPos, enemyVel;
- Sint16 enemyRadius;
- int enemyChasing;
+Sint16 enemyRadius;
+int enemyChasing;
 extern int WINDOW_W;
 extern int WINDOW_H;
 
@@ -144,11 +143,6 @@ void playUpdate(void *fsm_param) {
   updateBullets(bullets);
 
   enemy->update(world);
-  /* Update enemy */
-
-  /* enemy code was here */
-
-  
   globalTime++;
 }
 
@@ -161,9 +155,7 @@ void playDraw(struct GameState *state) {
   drawSprite(player, &camera, state->renderer);
   drawSprite(enemy, &camera, state->renderer);
   drawBullets(bullets, state->renderer);
-  /* and the enemy */
-  /* filledCircleColor(state->renderer, enemyPos.x, enemyPos.y, enemyRadius,
-     0xFFFF00FF);*/
+  
   SDL_SetRenderDrawColor(state->renderer, 230, 120, 20, 255);
 }
 
@@ -177,12 +169,9 @@ int initFonts(void){
   themeFont = TTF_OpenFont("fonts/djserifi.ttf", 26);
 }
 
-int initBackground(struct GameState *game){
-
-}
+int initBackground(struct GameState *game){}
 
 int playOnEnter(struct GameState *state) {
-  /* */
   int success = 0;
   playerLives = 3;
   initFonts();
