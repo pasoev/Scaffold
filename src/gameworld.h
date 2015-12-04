@@ -18,10 +18,11 @@
 #define COLLISION 2
 
 struct GameWorld {
-  struct Sprite *player;
-  struct Sprite *enemy;
-  int level_w;
-  int level_h;
-  int window_w;
-  int window_h;
+	struct Sprite *player;
+	struct Sprite *enemy;
+	int lives;
+	int level_w;
+	int level_h;
+	int window_w;
+	int window_h;
 };
