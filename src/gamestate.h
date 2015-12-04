@@ -10,37 +10,37 @@
 #define GAME_STATE_GAMEOVER 3
 
 struct GameState {
-  void (*update)(void *fsm);
-  void (*render)(struct GameState *state);
-  int (*onEnter)(struct GameState *state);
-  int (*onExit)(void);
-  int stateId;
-  SDL_Renderer *renderer;
+	void (*update)(void *fsm);
+	void (*render)(struct GameState *state);
+	int (*onEnter)(struct GameState *state);
+	int (*onExit)(void);
+	int stateId;
+	SDL_Renderer *renderer;
 };
 
 struct GameStateMachine {
-  List *gameStates;
-  void (*pushState)(struct GameStateMachine *fsm, struct GameState *state);
-  void (*changeState)(struct GameStateMachine *fsm, struct GameState *state);
-  void (*popState)(struct GameStateMachine *fsm);
-  void (*popAllStates)(struct GameStateMachine *fsm);
+	List *gameStates;
+	void (*pushState)(struct GameStateMachine *fsm, struct GameState *state);
+	void (*changeState)(struct GameStateMachine *fsm, struct GameState *state);
+	void (*popState)(struct GameStateMachine *fsm);
+	void (*popAllStates)(struct GameStateMachine *fsm);
 };
 
 int initFSM(List *states, void(*destroy)(void*), struct GameStateMachine** fsm);
 
 enum button_state {
-  MOUSE_OUT = 0,
-  MOUSE_OVER = 1,
-  CLICKED = 2
+	MOUSE_OUT = 0,
+	MOUSE_OVER = 1,
+	CLICKED = 2
 };
 
 struct Menu {
-  int w;
-  int h;
-  SDL_Texture *texture;
-  int currentFrame;
-  struct Vec2d pos;
-  void (*onClick)(struct GameStateMachine *);
+	int w;
+	int h;
+	SDL_Texture *texture;
+	int currentFrame;
+	struct Vec2d pos;
+	void (*onClick)(struct GameStateMachine *);
 };
 
 void pushState(struct GameStateMachine *fsm, struct GameState *state);

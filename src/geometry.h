@@ -10,7 +10,7 @@
 #include <math.h>
 
 struct Vec2d{
-  int x, y;
+	int x, y;
 };
 
 #define Vec2dLen(v) (sqrt(v.x * v.x + v.y * v.y))

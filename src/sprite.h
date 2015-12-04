@@ -26,24 +26,24 @@
 */
 
 enum movement_state{
-  IDLE,
-  JUMPING,
-  FALLING,
-  WALKING,
-  SHOOTING
+	IDLE,
+	JUMPING,
+	FALLING,
+	WALKING,
+	SHOOTING
 };
 
 struct Sprite{
-  int w, h;
-  int hitPoints;
-  struct Vec2d pos, vel;
-  void *texture;
-  int numFrames;
-  int currentFrame;
-  enum movement_state state;
-  int visible;
-  int alive;
-  void (*update)(void *world);
+	int w, h;
+	int hitPoints;
+	struct Vec2d pos, vel;
+	void *texture;
+	int numFrames;
+	int currentFrame;
+	enum movement_state state;
+	int visible;
+	int alive;
+	void (*update)(void *world);
 };
 
 #define DEFAULT_HIT_POINTS 5
