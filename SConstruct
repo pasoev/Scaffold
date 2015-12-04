@@ -7,7 +7,7 @@ cc = "gcc"
 
 libs = Split('SDL2 SDL2_image SDL2_ttf m')
 
-ccflags = '-g -pedantic' + w  
+ccflags = '-g' # -pedantic' + w  
 if platform == 'win32':
    ccflags += " -mwindows"
    libs.insert(0, 'SDL2main')

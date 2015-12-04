@@ -1,7 +1,11 @@
-#include "gamestate.h"
 #ifndef TEXTURE_H
 #include "texture.h"
 #endif
+
+#ifndef GAMEWORLD_H
+#include "gameworld.h"
+#endif
+
 #ifndef GEOMETRY_H
 #include "geometry.h"
 #endif
@@ -14,9 +18,9 @@
 extern int globalTime;
 
 struct Sprite *enemy;
+struct Sprite *player;
 int enemyLives = 3;
 
-extern struct Vec2d enemyPos, enemyVel;
 extern Sint16 enemyRadius;
 extern int enemyChasing;
 extern int WINDOW_W;
@@ -24,9 +28,18 @@ extern int WINDOW_H;
 extern int LEVEL_W;
 extern int LEVEL_H;
 
-void enemyUpdate(void *enemyParam){
+/* needs to be removed later */
+extern Sint16 enemyRadius;
+extern int enemyChasing;
+/* */
+
+extern int playerLives;
+
+void enemyUpdate(void *gameWorld){
   /* Enemy update logic */
-  struct Sprite *enemy = (struct Sprite*) enemyParam;
+  struct GameWorld *world = (struct GameWorld*) gameWorld;
+  enemy = world->enemy;
+  player = world->player;
   /* Update enemy using KEYBOARD */
   if(enemy->pos.y < 0){
     enemy->vel.y = STEP_SIZE;
@@ -43,31 +56,45 @@ void enemyUpdate(void *enemyParam){
   }
 
   /* wrop around horizontally */
-  if (enemyPos.x - enemyRadius < 0 || enemyPos.x + enemyRadius > LEVEL_W){
-    enemyVel.x = -enemyVel.x;
+  if (enemy->pos.x - enemyRadius < 0 || enemy->pos.x + enemyRadius > LEVEL_W){
+    enemy->vel.x = -enemy->vel.x;
   }
 
   /* wrop around vertically */
-  if (enemyPos.y - enemyRadius < 0 || enemyPos.y + enemyRadius > LEVEL_H){
-    enemyVel.y = -enemyVel.y;
+  if (enemy->pos.y - enemyRadius < 0 || enemy->pos.y + enemyRadius > LEVEL_H){
+    enemy->vel.y = -enemy->vel.y;
   }
 
   /* The enemy needs to check if you're near */
-  double distance = Vec2dLen(subtract(player->pos, enemyPos));
+  double distance = Vec2dLen(subtract(player->pos, enemy->pos));
   if (distance <= PROXIMITY + player->w / 2 + enemyRadius){
     if (!enemyChasing){
       enemyChasing = 1;
-      if (player->pos.x > enemyPos.x){
-	enemyVel.x = -enemyVel.x;
+      if (player->pos.x > enemy->pos.x){
+	enemy->vel.x = -enemy->vel.x;
       }
-      if (player->pos.y > enemyPos.y){
-	enemyVel.y = -enemyVel.y;
+      if (player->pos.y > enemy->pos.y){
+	enemy->vel.y = -enemy->vel.y;
       }
     }
   }
   else{
     enemyChasing = 0;
   }
-  enemyPos = add(enemyPos, enemyVel);
+  enemy->pos = add(enemy->pos, enemy->vel);
+
+  /* Check collision */
+  if (distance <= COLLISION + player->w / 2 + enemyRadius){
+    /* enemyPos = (struct Vec2d){WINDOW_W / 2, WINDOW_H / 2}; */
+    if(playerLives > 0){
+      playerLives--;
+      /* throw the player away from the enemy */
+      player->pos = add(player->pos,
+      add(subtract(enemy->pos, player->pos),
+          (struct Vec2d){100, 0}));
+    }else{
+      /* toGameoverMode(fsm); */
+    }
+  }
 
 }

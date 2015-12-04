@@ -1,6 +1,8 @@
 /* #include <SDL2/SDL2_gfxPrimitives.h> */
 #include <stdio.h>
+#ifndef GAMESTATE_H
 #include "gamestate.h"
+#endif
 #ifndef TEXTURE_H
 #endif
 #include "text.h"
@@ -22,4 +24,4 @@ struct GameWorld {
   int level_h;
   int window_w;
   int window_h;
-}
+};

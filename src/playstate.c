@@ -1,17 +1,18 @@
-#include "gamestate.h"
+#include "gameworld.h"
 
 int globalTime = 0;
 
 extern struct Sprite *player;
 extern struct Sprite *enemy;
+struct GameWorld *world;
 extern List *bullets;
 extern List *ledges;
 extern int playerScore;
 extern int playerLives;
 
-static struct Vec2d enemyPos, enemyVel;
-static Sint16 enemyRadius;
-static int enemyChasing;
+struct Vec2d enemyPos, enemyVel;
+ Sint16 enemyRadius;
+ int enemyChasing;
 extern int WINDOW_W;
 extern int WINDOW_H;
 
@@ -147,19 +148,7 @@ void playUpdate(void *fsm_param) {
 
   /* enemy code was here */
 
-  /* Check collision */
-  if (distance <= COLLISION + player->w / 2 + enemyRadius){
-    /* enemyPos = (struct Vec2d){WINDOW_W / 2, WINDOW_H / 2}; */
-    if(playerLives > 0){
-      playerLives--;
-      /* throw the player away from the enemy */
-      player->pos = add(player->pos,
-			add(subtract(enemyPos, player->pos),
-			    (struct Vec2d){100, 0}));
-    }else{
-      toGameoverMode(fsm);
-    }
-  }
+  
   globalTime++;
 }
 
