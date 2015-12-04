@@ -17,7 +17,7 @@
 
 extern int globalTime;
 
-struct Sprite *enemy;
+/* struct Sprite *enemy; */
 struct Sprite *player;
 int enemyLives = 3;
 
@@ -38,7 +38,7 @@ extern int playerLives;
 void enemyUpdate(void *gameWorld){
   /* Enemy update logic */
   struct GameWorld *world = (struct GameWorld*) gameWorld;
-  enemy = world->enemy;
+  struct Sprite *enemy = world->enemy;
   player = world->player;
   /* Update enemy using KEYBOARD */
   if(enemy->pos.y < 0){

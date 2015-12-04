@@ -2,8 +2,8 @@
 
 int globalTime = 0;
 
-extern struct Sprite *player;
-extern struct Sprite *enemy;
+static struct Sprite *player;
+static struct Sprite *enemy;
 struct GameWorld *world;
 extern List *bullets;
 extern List *ledges;
@@ -122,7 +122,7 @@ void playUpdate(void *fsm_param) {
   }
 
   /* Call update function for the player */
-  player->update((void*)player);
+  player->update(world);
   /* Center the camera over the dot */
   camera.rect.x = (player->pos.x + player->w / 2) - WINDOW_W / 2;
   camera.rect.y = (player->pos.y + player->h / 2) - WINDOW_H / 2;
@@ -143,7 +143,7 @@ void playUpdate(void *fsm_param) {
 
   updateBullets(bullets);
 
-  enemy->update((void*)enemy);
+  enemy->update(world);
   /* Update enemy */
 
   /* enemy code was here */
@@ -187,6 +187,7 @@ int playOnEnter(struct GameState *state) {
   playerLives = 3;
   initFonts();
   /* enter the player */
+  world = malloc(sizeof(struct GameWorld));
   player = malloc(sizeof(struct Sprite));
   enemy = malloc(sizeof(struct Sprite));
   if (player != NULL){
@@ -211,6 +212,13 @@ int playOnEnter(struct GameState *state) {
     SDL_QueryTexture(enemy->texture, NULL, NULL, &imgW, &imgH);
     enemy->w = imgW / enemy->numFrames;
     enemy->h = imgH;
+
+    enemy->pos.x = 400;
+    enemy->pos.y = 600;
+    enemy->vel.x = 1;
+    enemy->vel.y = 1;
+    world->player = player;
+    world->enemy = enemy;
   }else{
     success = -1;
   }
@@ -223,10 +231,7 @@ int playOnEnter(struct GameState *state) {
   initLedges(ledges, state->renderer);
 
   /* And the enemy */
-  enemyPos.x = 400;
-  enemyPos.y = 600;
-  enemyVel.x = 1;
-  enemyVel.y = 1;
+  
   enemyRadius = 30;
   enemyChasing = 0;
 
