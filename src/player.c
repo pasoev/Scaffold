@@ -22,7 +22,6 @@ extern Sint16 enemyRadius;
 extern int enemyChasing;
 
 extern int WINDOW_W; /* only for bullets */
-extern int LEVEL_W;
 extern int WINDOW_H;
 
 extern int isKeyDown(SDL_Scancode);
@@ -125,7 +124,7 @@ void playerUpdate(void *playerParam){
 		}else if(isKeyDown(SDL_SCANCODE_RIGHT)){
 			player->vel = (struct Vec2d){STEP_SIZE, 0};
 			player->state = WALKING;
-			if(player->pos.x < LEVEL_W - STEP_SIZE - player->w){
+			if(player->pos.x < world->level_w - STEP_SIZE - player->w){
 				player->pos = add(player->pos, player->vel);
 
 				if(globalTime % 6 == 0){
