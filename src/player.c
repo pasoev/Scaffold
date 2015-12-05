@@ -48,7 +48,7 @@ void makeBullet(int x, int y, int dx){
 }
 
 void shoot(struct Sprite* sprite){
-	/* sprite->state = SHOOTING; */
+	sprite->state = SHOOTING;
 	if(sprite->currentFrame == 4){
 		sprite->currentFrame = 5;
 	}else{
