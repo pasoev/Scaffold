@@ -18,9 +18,6 @@ int playerScore = 0;
 int playerLives = 3;
 
 extern struct Vec2d enemyPos, enemyVel;
-extern Sint16 enemyRadius;
-extern int enemyChasing;
-
 extern int WINDOW_W; /* only for bullets */
 extern int WINDOW_H;
 

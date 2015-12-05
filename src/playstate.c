@@ -181,7 +181,7 @@ int playOnEnter(struct GameState *state) {
 	world->window_h = WINDOW_H;
 	player = malloc(sizeof(struct Sprite));
 	enemy = malloc(sizeof(struct Sprite));
-	if (player == NULL){
+	if (player == NULL || enemy == NULL){
 	  return -1;
 	}
 	int imgW, imgH;
@@ -219,8 +219,6 @@ int playOnEnter(struct GameState *state) {
 	list_init(ledges, destroyLedge);
 
 	initLedges(ledges, state->renderer);
-
-	/* And the enemy */
   
 	enemyRadius = 30;
 	enemyChasing = 0;
