@@ -9,8 +9,6 @@ extern List *bullets;
 extern List *ledges;
 extern int playerScore;
 
-Sint16 enemyRadius;
-int enemyChasing;
 extern int WINDOW_W;
 extern int WINDOW_H;
 
@@ -219,10 +217,6 @@ int playOnEnter(struct GameState *state) {
 	list_init(ledges, destroyLedge);
 
 	initLedges(ledges, state->renderer);
-  
-	enemyRadius = 30;
-	enemyChasing = 0;
-
 	initBackground(state);
 	return 0;
 }

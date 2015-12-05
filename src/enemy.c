@@ -21,8 +21,8 @@ extern int globalTime;
 struct Sprite *player;
 int enemyLives = 3;
 
-extern Sint16 enemyRadius;
-extern int enemyChasing;
+static Sint16 enemyRadius = 30;
+static int enemyChasing = 0;
 extern int WINDOW_W;
 extern int WINDOW_H;
 extern int LEVEL_W;
