@@ -170,7 +170,7 @@ int initBackground(struct GameState *game){}
 
 int playOnEnter(struct GameState *state) {
 	initFonts();
-	/* enter the player */
+	/* initialise the game world */
 	world = malloc(sizeof(struct GameWorld));
 	world->lives = 3;
 	world->level_w = LEVEL_W;
