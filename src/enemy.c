@@ -28,11 +28,6 @@ extern int WINDOW_H;
 extern int LEVEL_W;
 extern int LEVEL_H;
 
-/* needs to be removed later */
-extern Sint16 enemyRadius;
-extern int enemyChasing;
-/* */
-
 extern int playerLives;
 
 void enemyUpdate(void *gameWorld){
