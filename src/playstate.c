@@ -171,7 +171,6 @@ int initFonts(void){
 int initBackground(struct GameState *game){}
 
 int playOnEnter(struct GameState *state) {
-	int success = 0;
 	initFonts();
 	/* enter the player */
 	world = malloc(sizeof(struct GameWorld));
@@ -180,38 +179,37 @@ int playOnEnter(struct GameState *state) {
 	world->level_h = LEVEL_H;
 	player = malloc(sizeof(struct Sprite));
 	enemy = malloc(sizeof(struct Sprite));
-	if (player != NULL){
-		int imgW, imgH;
-		makeSprite(player, 6, DEFAULT_HIT_POINTS, (struct Vec2d){ 600, 300 },
-			   (struct Vec2d){ 0, 0 });
-
-		player->update = playerUpdate;
-		makeSprite(enemy, 2, DEFAULT_HIT_POINTS, (struct Vec2d){ 750, 300 },
-			   (struct Vec2d){ 0, 3 });
-
-		enemy->update = enemyUpdate;
-		player->texture = (void *)NULL;
-		enemy->texture = (void*)NULL;
-		loadTextures(state->renderer);
-
-		SDL_QueryTexture(player->texture, NULL, NULL, &imgW, &imgH);
-		player->w = imgW / player->numFrames;
-		player->h = imgH;
-		player->state = IDLE;
-
-		SDL_QueryTexture(enemy->texture, NULL, NULL, &imgW, &imgH);
-		enemy->w = imgW / enemy->numFrames;
-		enemy->h = imgH;
-
-		enemy->pos.x = 400;
-		enemy->pos.y = 600;
-		enemy->vel.x = 1;
-		enemy->vel.y = 1;
-		world->player = player;
-		world->enemy = enemy;
-	}else{
-		success = -1;
+	if (player == NULL){
+	  return -1;
 	}
+	int imgW, imgH;
+	makeSprite(player, 6, DEFAULT_HIT_POINTS, (struct Vec2d){ 600, 300 },
+		   (struct Vec2d){ 0, 0 });
+
+	player->update = playerUpdate;
+	makeSprite(enemy, 2, DEFAULT_HIT_POINTS, (struct Vec2d){ 750, 300 },
+		   (struct Vec2d){ 0, 3 });
+
+	enemy->update = enemyUpdate;
+	player->texture = (void *)NULL;
+	enemy->texture = (void*)NULL;
+	loadTextures(state->renderer);
+
+	SDL_QueryTexture(player->texture, NULL, NULL, &imgW, &imgH);
+	player->w = imgW / player->numFrames;
+	player->h = imgH;
+	player->state = IDLE;
+
+	SDL_QueryTexture(enemy->texture, NULL, NULL, &imgW, &imgH);
+	enemy->w = imgW / enemy->numFrames;
+	enemy->h = imgH;
+	
+	enemy->pos.x = 400;
+	enemy->pos.y = 600;
+	enemy->vel.x = 1;
+	enemy->vel.y = 1;
+	world->player = player;
+	world->enemy = enemy;
 
 	bullets = malloc(sizeof *bullets);
 	list_init(bullets, NULL);
@@ -225,10 +223,8 @@ int playOnEnter(struct GameState *state) {
 	enemyRadius = 30;
 	enemyChasing = 0;
 
-	success = 0;
-
 	initBackground(state);
-	return success;
+	return 0;
 }
 
 int playOnExit(void) {
