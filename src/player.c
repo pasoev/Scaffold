@@ -13,7 +13,6 @@
 
 extern int globalTime;
 
-/* struct Sprite *player; */
 int playerScore = 0;
 int playerLives = 3;
 
@@ -49,21 +48,21 @@ void makeBullet(int x, int y, int dx){
 }
 
 void shoot(struct Sprite* sprite){
-	/* player->state = SHOOTING; */
-	if(player->currentFrame == 4){
-		player->currentFrame = 5;
+	/* sprite->state = SHOOTING; */
+	if(sprite->currentFrame == 4){
+		sprite->currentFrame = 5;
 	}else{
-		player->currentFrame = 4;
+		sprite->currentFrame = 4;
 	}
 	int x = 0, y = 0, dx = 0;
-	if(player->vel.x < 0){
-		x = player->pos.x + 5;
-		y = player->pos.y + 20;
+	if(sprite->vel.x < 0){
+		x = sprite->pos.x + 5;
+		y = sprite->pos.y + 20;
 	}else{
-		x = player->pos.x + 35;
-		y = player->pos.y + 20;
+		x = sprite->pos.x + 35;
+		y = sprite->pos.y + 20;
 	}
-	dx = player->vel.x * 1.5;
+	dx = sprite->vel.x * 1.5;
 	makeBullet(x, y, dx);
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Shooting.\n");
 }
