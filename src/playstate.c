@@ -177,6 +177,8 @@ int playOnEnter(struct GameState *state) {
 	world->lives = 3;
 	world->level_w = LEVEL_W;
 	world->level_h = LEVEL_H;
+	world->window_w = WINDOW_W;
+	world->window_h = WINDOW_H;
 	player = malloc(sizeof(struct Sprite));
 	enemy = malloc(sizeof(struct Sprite));
 	if (player == NULL){
