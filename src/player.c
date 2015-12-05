@@ -142,10 +142,6 @@ void playerUpdate(void *playerParam){
 	if(isKeyDown(SDL_SCANCODE_SPACE) && player->state != WALKING){
 		if(globalTime % 6 == 0){
 			shoot(player);
-		}else{
-			/* player->state = IDLE;
-			   player->currentFrame = 4;
-			*/
 		}
 	}
 
