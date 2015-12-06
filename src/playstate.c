@@ -213,10 +213,12 @@ int playOnEnter(struct GameState *state) {
 
 	bullets = malloc(sizeof *bullets);
 	list_init(bullets, NULL);
+	
 	ledges = malloc(sizeof *ledges);
 	list_init(ledges, destroyLedge);
-
 	initLedges(ledges, state->renderer);
+	world->ledges = ledges;
+	
 	initBackground(state);
 	return 0;
 }

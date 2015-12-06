@@ -20,6 +20,7 @@
 struct GameWorld {
 	struct Sprite *player;
 	struct Sprite *enemy;
+	List *ledges;
 	int lives;
 	int level_w;
 	int level_h;
