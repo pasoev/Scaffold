@@ -139,7 +139,7 @@ void playUpdate(void *fsm_param) {
 
 	updateBullets(bullets);
 
-	enemy->update(world);
+	/* enemy->update(world); */
 	globalTime++;
 }
 

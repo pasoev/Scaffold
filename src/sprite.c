@@ -20,7 +20,7 @@ void drawSprite(struct Sprite *sprite, struct Camera *camera,
 	SDL_RendererFlip flip = SDL_FLIP_NONE;
 	int x, y;
 
-	if (sprite->vel.x < 0){
+	if (sprite->facing == LEFT){
 		flip = SDL_FLIP_HORIZONTAL;
 	}else{
 		flip = SDL_FLIP_NONE;

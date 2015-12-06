@@ -25,6 +25,11 @@
    time. Visible is a separate state
 */
 
+enum direction {
+	LEFT,
+	RIGHT
+};
+
 enum movement_state{
 	IDLE,
 	JUMPING,
@@ -37,6 +42,7 @@ struct Sprite{
 	int w, h;
 	int hitPoints;
 	struct Vec2d pos, vel;
+	enum direction facing;
 	void *texture;
 	int numFrames;
 	int currentFrame;

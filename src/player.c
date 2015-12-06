@@ -7,7 +7,6 @@
 #endif
 #include "sprite.h"
 
-#define STEP_SIZE 6
 #define PROXIMITY 300
 #define COLLISION 2
 
@@ -65,14 +64,15 @@ void shoot(struct Sprite* sprite){
 		sprite->currentFrame = 4;
 	}
 	int x = 0, y = 0, dx = 0;
-	if(sprite->vel.x < 0){
+	if(sprite->facing == LEFT){
 		x = sprite->pos.x + 5;
 		y = sprite->pos.y + 20;
 	}else{
 		x = sprite->pos.x + 35;
 		y = sprite->pos.y + 20;
 	}
-	dx = sprite->vel.x * 1.5;
+	int direction = (sprite->facing == LEFT)? -STEP_SIZE : STEP_SIZE;
+	dx = direction * 1.5;
 	makeBullet(x, y, dx);
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Shooting.\n");
 }
@@ -115,22 +115,22 @@ void playerUpdate(void *playerParam){
 	player = world->player;
 	/* Update player using KEYBOARD */
 	if(isKeyDown(SDL_SCANCODE_LEFT)){
-		// player->vel = (struct Vec2d){-STEP_SIZE, player->vel.y};
-		
 		if(player->pos.x > 0){
 			player->state = WALKING;
 			struct Vec2d step = {-STEP_SIZE, 0};
 			player->pos = add(player->pos, step);
+			player->facing = LEFT;
 			if(globalTime % 6 == 0){
 				player->currentFrame++;
 				player->currentFrame %= 4;
 			}
 		}
 	}else if(isKeyDown(SDL_SCANCODE_RIGHT)){
-		player->state = WALKING;
 		if(player->pos.x < world->level_w - STEP_SIZE - player->w){
+			player->state = WALKING;
 			struct Vec2d step = {STEP_SIZE, 0};
 			player->pos = add(player->pos, step);
+			player->facing = RIGHT;
 			if(globalTime % 6 == 0){
 				player->currentFrame++;
 				player->currentFrame %= 4;
