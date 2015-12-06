@@ -43,7 +43,7 @@ struct Ledge* findCollidingLedge(List *ledges, struct Sprite *player){
 		struct Ledge *ledge = (struct Ledge *)list_data(elmt);
 		printf("player: x = %d, w = %d\n", player->pos.x, player->w);
 		printf("ledge: x = %d, w = %d\n", ledge->x, ledge->w);
-		if((player->pos.x) >= ledge->x && (player->pos.x + player->w) <= (ledge->x + ledge->w)){
+		if((player->pos.x + player->w) >= ledge->x && (player->pos.x + player->w) <= (ledge->x + ledge->w)){
 			
 			collidingLedge = ledge;
 		}
