@@ -115,22 +115,22 @@ void playerUpdate(void *playerParam){
 	player = world->player;
 	/* Update player using KEYBOARD */
 	if(isKeyDown(SDL_SCANCODE_LEFT)){
-		player->vel = (struct Vec2d){-STEP_SIZE, 0};
+		// player->vel = (struct Vec2d){-STEP_SIZE, player->vel.y};
+		
 		if(player->pos.x > 0){
-			player->pos = add(player->pos, player->vel);
 			player->state = WALKING;
-
+			struct Vec2d step = {-STEP_SIZE, 0};
+			player->pos = add(player->pos, step);
 			if(globalTime % 6 == 0){
 				player->currentFrame++;
 				player->currentFrame %= 4;
 			}
 		}
 	}else if(isKeyDown(SDL_SCANCODE_RIGHT)){
-		player->vel = (struct Vec2d){STEP_SIZE, 0};
 		player->state = WALKING;
 		if(player->pos.x < world->level_w - STEP_SIZE - player->w){
-			player->pos = add(player->pos, player->vel);
-
+			struct Vec2d step = {STEP_SIZE, 0};
+			player->pos = add(player->pos, step);
 			if(globalTime % 6 == 0){
 				player->currentFrame++;
 				player->currentFrame %= 4;
@@ -143,7 +143,7 @@ void playerUpdate(void *playerParam){
 	
 	if(isKeyDown(SDL_SCANCODE_UP) && player->state != JUMPING){
 		player->state = JUMPING;
-		player->vel.y = -10;
+		player->vel.y = -30;
 	}
 
 	if(isKeyDown(SDL_SCANCODE_SPACE)){
@@ -164,7 +164,7 @@ void playerUpdate(void *playerParam){
 
 	}
 	struct Ledge *currentLedge = findCollidingLedge(world->ledges, player);
-	if(player->state != JUMPING && currentLedge != NULL && player->pos.y < currentLedge->y){
+	if(player->state != JUMPING && currentLedge != NULL && player->pos.y < (currentLedge->y - currentLedge->h / 2) ){
 		player->pos = add(player->pos, player->vel);
 	}
 }
