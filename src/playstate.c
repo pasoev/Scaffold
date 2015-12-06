@@ -139,7 +139,7 @@ void playUpdate(void *fsm_param) {
 
 	updateBullets(bullets);
 
-	enemy->update(world);
+	/* enemy->update(world); */
 	globalTime++;
 }
 
@@ -184,7 +184,7 @@ int playOnEnter(struct GameState *state) {
 	}
 	int imgW, imgH;
 	makeSprite(player, 6, DEFAULT_HIT_POINTS, (struct Vec2d){ 600, 300 },
-		   (struct Vec2d){ 0, 0 });
+		   (struct Vec2d){ 0, 10 });
 
 	player->update = playerUpdate;
 	makeSprite(enemy, 2, DEFAULT_HIT_POINTS, (struct Vec2d){ 750, 300 },

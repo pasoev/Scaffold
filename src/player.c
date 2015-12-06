@@ -7,7 +7,6 @@
 #endif
 #include "sprite.h"
 
-#define STEP_SIZE 6
 #define PROXIMITY 300
 #define COLLISION 2
 
@@ -37,6 +36,16 @@ void initPlayer(void){}
 
 static struct Sprite *player;
 
+struct Ledge* findCollidingLedge(List *ledges, struct Sprite *player){
+	ListElmt *elmt;
+	for(elmt = list_head(ledges); elmt != NULL; elmt = list_next(elmt)){
+		struct Ledge *ledge = (struct Ledge *)list_data(elmt);
+		if((player->pos.x) >= ledge->x && player->pos.x <= (ledge->x + ledge->h)){
+			return ledge;
+		}
+	}
+}
+
 void makeBullet(int x, int y, int dx){
 	struct Bullet *bullet = malloc(sizeof(struct Bullet));
 	bullet->pos.x = x;
@@ -55,14 +64,15 @@ void shoot(struct Sprite* sprite){
 		sprite->currentFrame = 4;
 	}
 	int x = 0, y = 0, dx = 0;
-	if(sprite->vel.x < 0){
+	if(sprite->facing == LEFT){
 		x = sprite->pos.x + 5;
 		y = sprite->pos.y + 20;
 	}else{
 		x = sprite->pos.x + 35;
 		y = sprite->pos.y + 20;
 	}
-	dx = sprite->vel.x * 1.5;
+	int direction = (sprite->facing == LEFT)? -STEP_SIZE : STEP_SIZE;
+	dx = direction * 1.5;
 	makeBullet(x, y, dx);
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Shooting.\n");
 }
@@ -104,42 +114,39 @@ void playerUpdate(void *playerParam){
 	struct GameWorld *world = (struct GameWorld*)playerParam;
 	player = world->player;
 	/* Update player using KEYBOARD */
-	if(/* player->state != SHOOTING && */player->state != JUMPING &&
-	   player->state != FALLING){
-		if(isKeyDown(SDL_SCANCODE_LEFT)){
-			player->vel = (struct Vec2d){-STEP_SIZE, 0};
-			if(player->pos.x > 0){
-				player->pos = add(player->pos, player->vel);
-				player->state = WALKING;
-
-				if(globalTime % 6 == 0){
-					player->currentFrame++;
-					player->currentFrame %= 4;
-				}
-			}
-		}else if(isKeyDown(SDL_SCANCODE_RIGHT)){
-			player->vel = (struct Vec2d){STEP_SIZE, 0};
+	if(isKeyDown(SDL_SCANCODE_LEFT)){
+		if(player->pos.x > 0){
 			player->state = WALKING;
-			if(player->pos.x < world->level_w - STEP_SIZE - player->w){
-				player->pos = add(player->pos, player->vel);
-
-				if(globalTime % 6 == 0){
-					player->currentFrame++;
-					player->currentFrame %= 4;
-				}
+			struct Vec2d step = {-STEP_SIZE, 0};
+			player->pos = add(player->pos, step);
+			player->facing = LEFT;
+			if(globalTime % 6 == 0){
+				player->currentFrame++;
+				player->currentFrame %= 4;
 			}
-		}else{
-			player->state = IDLE;
-			player->currentFrame = 4;
 		}
+	}else if(isKeyDown(SDL_SCANCODE_RIGHT)){
+		if(player->pos.x < world->level_w - STEP_SIZE - player->w){
+			player->state = WALKING;
+			struct Vec2d step = {STEP_SIZE, 0};
+			player->pos = add(player->pos, step);
+			player->facing = RIGHT;
+			if(globalTime % 6 == 0){
+				player->currentFrame++;
+				player->currentFrame %= 4;
+			}
+		}
+	}else{
+		player->state = IDLE;
+		player->currentFrame = 4;
 	}
-	if(isKeyDown(SDL_SCANCODE_UP) && player->state != JUMPING &&
-	   player->state != FALLING){
+	
+	if(isKeyDown(SDL_SCANCODE_UP) && player->state != JUMPING){
 		player->state = JUMPING;
-		player->vel.y = -10;
+		player->vel.y = -30;
 	}
 
-	if(isKeyDown(SDL_SCANCODE_SPACE) && player->state != WALKING){
+	if(isKeyDown(SDL_SCANCODE_SPACE)){
 		if(globalTime % 6 == 0){
 			shoot(player);
 		}
@@ -149,22 +156,16 @@ void playerUpdate(void *playerParam){
 		struct Vec2d diff = subtract(player->vel, gravity);
 		player->vel = subtract(player->vel, gravity);
 		player->pos = add(player->pos, diff);
-
-		if(player->vel.y >= 0){
-			player->state = FALLING;
+		
+		if(diff.y <= 0){
+			player->state = IDLE;
 			player->vel.y = 10;
 		}
+
 	}
-
-	if(player->state == FALLING){
-		struct Vec2d diff = subtract(player->vel, multByScalar(gravity, -1));
-		player->vel = subtract(player->vel, multByScalar(gravity, -1));
-		player->pos = add(player->pos, diff);
-
-		if(player->vel.y <= 0){
-			player->state = IDLE;
-			player->vel.y = 0;
-		}
+	struct Ledge *currentLedge = findCollidingLedge(world->ledges, player);
+	if(player->state != JUMPING && currentLedge != NULL && player->pos.y < (currentLedge->y - currentLedge->h / 2) ){
+		player->pos = add(player->pos, player->vel);
 	}
 }
 void drawBullets(List *bullets, SDL_Renderer *renderer){

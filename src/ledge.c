@@ -1,14 +1,6 @@
 #include "ledge.h"
 #include "parselvl.h"
 
-struct Ledge{
-	int x;
-	int y;
-	int w;
-	int h;
-	SDL_Texture *texture;
-};
-
 SDL_Texture *brickTexture;
 
 void addLedge(List *ledges, int x, int y, int w, int h,
