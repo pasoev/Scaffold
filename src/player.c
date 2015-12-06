@@ -169,15 +169,17 @@ void playerUpdate(void *playerParam){
 	}
 	
 	struct Ledge *currentLedge = findCollidingLedge(world->ledges, player);
-	if(currentLedge == NULL){
-		printf("Falling\n");
+	if(currentLedge != NULL){
+		if(player->pos.y < (currentLedge->y - currentLedge->h / 2)){
+			player->pos = add(player->pos, player->vel);
+		}else{
+			printf("standing on %d\n", currentLedge->x);	
+			
+		}
+	}else{
 		player->pos = add(player->pos, player->vel);
-	}/* else if(player->pos.y < (currentLedge->y - currentLedge->h / 2)){
-	    player->pos = add(player->pos, player->vel);
-	    }*/
-	else {
-		printf("standing on %d\n", currentLedge->x);
 	}
+	
 
 }
 void drawBullets(List *bullets, SDL_Renderer *renderer){
