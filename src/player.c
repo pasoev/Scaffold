@@ -173,12 +173,14 @@ void playerUpdate(void *playerParam){
 	struct Ledge *currentLedge = findCollidingLedge(world->ledges, player);
 	if(player->state != JUMPING && currentLedge != NULL){
 		if(player->pos.y < (currentLedge->y - currentLedge->h / 2)){
+			printf("Fall under ledge whose x = %d\n", currentLedge->x);
 			player->pos = add(player->pos, player->vel);
 		}else{
-			printf("standing on %d\n", currentLedge->x);	
+			/* printf("standing on %d\n", currentLedge->x);	 */
 			
 		}
 	}else{
+		printf("Fall as there is nothing to stand on\n");
 		player->pos = add(player->pos, player->vel);
 	}
 	
