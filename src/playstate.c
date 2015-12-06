@@ -183,7 +183,7 @@ int playOnEnter(struct GameState *state) {
 	  return -1;
 	}
 	int imgW, imgH;
-	makeSprite(player, 6, DEFAULT_HIT_POINTS, (struct Vec2d){ 600, 300 },
+	makeSprite(player, 6, DEFAULT_HIT_POINTS, (struct Vec2d){ 300, 300 },
 		   (struct Vec2d){ 0, 10 });
 
 	player->update = playerUpdate;

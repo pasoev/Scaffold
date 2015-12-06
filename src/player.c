@@ -37,13 +37,16 @@ void initPlayer(void){}
 static struct Sprite *player;
 
 struct Ledge* findCollidingLedge(List *ledges, struct Sprite *player){
+	struct Ledge *collidingLedge = NULL;
 	ListElmt *elmt;
 	for(elmt = list_head(ledges); elmt != NULL; elmt = list_next(elmt)){
 		struct Ledge *ledge = (struct Ledge *)list_data(elmt);
-		if((player->pos.x) >= ledge->x && player->pos.x <= (ledge->x + ledge->h)){
-			return ledge;
+		if((player->pos.x + player->w) >= ledge->x && (player->pos.x + player->w) <= (ledge->x + ledge->w)){
+			
+			collidingLedge = ledge;
 		}
 	}
+	return collidingLedge;
 }
 
 void makeBullet(int x, int y, int dx){
@@ -152,6 +155,7 @@ void playerUpdate(void *playerParam){
 		}
 	}
 
+	
 	if(player->state == JUMPING){
 		struct Vec2d diff = subtract(player->vel, gravity);
 		player->vel = subtract(player->vel, gravity);
@@ -163,10 +167,20 @@ void playerUpdate(void *playerParam){
 		}
 
 	}
+	
 	struct Ledge *currentLedge = findCollidingLedge(world->ledges, player);
-	if(player->state != JUMPING && currentLedge != NULL && player->pos.y < (currentLedge->y - currentLedge->h / 2) ){
+	if(player->state != JUMPING && currentLedge != NULL){
+		if(player->pos.y < (currentLedge->y - currentLedge->h / 2)){
+			player->pos = add(player->pos, player->vel);
+		}else{
+			/* printf("standing on %d\n", currentLedge->x);	 */
+			
+		}
+	}else{
 		player->pos = add(player->pos, player->vel);
 	}
+	
+
 }
 void drawBullets(List *bullets, SDL_Renderer *renderer){
 	ListElmt *elmt;
