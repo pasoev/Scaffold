@@ -161,7 +161,7 @@ void playerUpdate(void *playerParam){
 		player->vel = subtract(player->vel, gravity);
 		player->pos = add(player->pos, diff);
 		
-		if(diff.y <= 0){
+		if(player->vel.y <= 3){
 			player->state = IDLE;
 			player->vel.y = 10;
 		}
