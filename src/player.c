@@ -37,6 +37,7 @@ void initPlayer(void){}
 static struct Sprite *player;
 
 struct Ledge* findCollidingLedge(List *ledges, struct Sprite *player){
+	struct Ledge *collidingLedge = NULL;
 	ListElmt *elmt;
 	for(elmt = list_head(ledges); elmt != NULL; elmt = list_next(elmt)){
 		struct Ledge *ledge = (struct Ledge *)list_data(elmt);
@@ -44,9 +45,10 @@ struct Ledge* findCollidingLedge(List *ledges, struct Sprite *player){
 		printf("ledge: x = %d, w = %d\n", ledge->x, ledge->w);
 		if((player->pos.x) >= ledge->x && (player->pos.x + player->w) <= (ledge->x + ledge->w)){
 			
-			return ledge;
+			collidingLedge = ledge;
 		}
 	}
+	return collidingLedge;
 }
 
 void makeBullet(int x, int y, int dx){
