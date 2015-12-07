@@ -171,8 +171,9 @@ void playerUpdate(void *playerParam){
 	struct Ledge *currentLedge = findCollidingLedge(world->ledges, player);
 	if(player->state != JUMPING && currentLedge != NULL){
 		if(player->pos.y < (currentLedge->y - currentLedge->h / 2)){
-			player->pos = add(player->pos, player->vel);
+			
 		}else{
+			player->pos = add(player->pos, player->vel);
 			/* printf("standing on %d\n", currentLedge->x);	 */
 			
 		}
