@@ -8,6 +8,7 @@
 #ifndef GEOMETRY_H
 #define	GEOMETRY_H
 #include <math.h>
+#include <stdlib.h>
 
 struct Vec2d{
 	int x, y;

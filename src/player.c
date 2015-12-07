@@ -41,8 +41,8 @@ struct Ledge* findCollidingLedge(List *ledges, struct Sprite *player){
 	ListElmt *elmt;
 	for(elmt = list_head(ledges); elmt != NULL; elmt = list_next(elmt)){
 		struct Ledge *ledge = (struct Ledge *)list_data(elmt);
-		if((player->pos.x + player->w) >= ledge->x && (player->pos.x + player->w) <= (ledge->x + ledge->w)){
-			
+		if(((player->pos.x + player->w) >= ledge->x && (player->pos.x + player->w) <= (ledge->x + ledge->w)) &&
+		   (player->pos.y < ledge->y + ledge->h)){			
 			collidingLedge = ledge;
 		}
 	}
@@ -169,14 +169,11 @@ void playerUpdate(void *playerParam){
 	}
 	
 	struct Ledge *currentLedge = findCollidingLedge(world->ledges, player);
-	if(player->state != JUMPING && currentLedge != NULL){
-		if(player->pos.y < (currentLedge->y - currentLedge->h / 2)){
-			
-		}else{
-			player->pos = add(player->pos, player->vel);
-			/* printf("standing on %d\n", currentLedge->x);	 */
-			
-		}
+	/* printf("player->pos.y = %d, ledge->y = %d\n", player->pos.y, currentLedge->y); */
+	if(player->state == JUMPING){
+		
+	}else if(currentLedge != NULL && abs(currentLedge->y - player->pos.y) < 15){
+		
 	}else{
 		player->pos = add(player->pos, player->vel);
 	}
