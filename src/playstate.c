@@ -199,6 +199,7 @@ int playOnEnter(struct GameState *state) {
 	player->w = imgW / player->numFrames;
 	player->h = imgH;
 	player->state = IDLE;
+	player->facing = RIGHT;
 
 	SDL_QueryTexture(enemy->texture, NULL, NULL, &imgW, &imgH);
 	enemy->w = imgW / enemy->numFrames;
