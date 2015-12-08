@@ -36,10 +36,10 @@ int collidingBelow(List *ledges, struct Sprite *player){
 	ListElmt *elmt;
 	int playerLeftX = player->pos.x;
 	int playerRightX = player->pos.x + player->w;
-	int playerY = player->pos.y;
+	int playerY = player->pos.y + player->h;
 	for(elmt = list_head(ledges); elmt != NULL; elmt = list_next(elmt)){
 		struct Ledge *ledge = (struct Ledge *)list_data(elmt);
-		int ledgeY = ledge->y, ledgeLeftX = ledge->x, ledgeRightX = ledge->x + ledge->h;
+		int ledgeY = ledge->y, ledgeLeftX = ledge->x, ledgeRightX = ledge->x + ledge->w;
 		if(playerRightX >= ledgeLeftX && playerLeftX <= ledgeRightX &&
 		   playerY >= ledgeY && playerY <= ledgeY + 5){
 			collidingBelow = 1;
