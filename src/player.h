@@ -2,6 +2,7 @@
 #include "list.h"
 
 #define STEP_SIZE 6
+#include "bullet.h"
 
 void initPlayer(void);
 void playerUpdate(void *playerParam);

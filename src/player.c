@@ -21,12 +21,6 @@ extern int WINDOW_H;
 
 extern int isKeyDown(SDL_Scancode);
 
-/* Bullets */
-struct Bullet{
-	struct Vec2d pos;
-	struct Vec2d vel;
-};
-
 List *bullets;
 SDL_Texture *bulletTexture = (void *)NULL;
 
@@ -36,17 +30,22 @@ void initPlayer(void){}
 
 static struct Sprite *player;
 
-struct Ledge* findCollidingLedge(List *ledges, struct Sprite *player){
+int collidingBelow(List *ledges, struct Sprite *player){
 	struct Ledge *collidingLedge = NULL;
+	int collidingBelow = 0;
 	ListElmt *elmt;
+	int playerLeftX = player->pos.x;
+	int playerRightX = player->pos.x + player->w;
+	int playerY = player->pos.y;
 	for(elmt = list_head(ledges); elmt != NULL; elmt = list_next(elmt)){
 		struct Ledge *ledge = (struct Ledge *)list_data(elmt);
-		if(((player->pos.x + player->w) >= ledge->x && (player->pos.x + player->w) <= (ledge->x + ledge->w)) &&
-		   (player->pos.y < ledge->y + ledge->h)){			
-			collidingLedge = ledge;
+		int ledgeY = ledge->y, ledgeLeftX = ledge->x, ledgeRightX = ledge->x + ledge->h;
+		if(playerRightX >= ledgeLeftX && playerLeftX <= ledgeRightX &&
+		   playerY >= ledgeY && playerY <= ledgeY + 5){
+			collidingBelow = 1;
 		}
 	}
-	return collidingLedge;
+	return collidingBelow;
 }
 
 void makeBullet(int x, int y, int dx){
@@ -168,15 +167,14 @@ void playerUpdate(void *playerParam){
 
 	}
 	
-	struct Ledge *currentLedge = findCollidingLedge(world->ledges, player);
+	/* struct Ledge *currentLedge = findCollidingLedge(world->ledges, player); */
 	/* printf("player->pos.y = %d, ledge->y = %d\n", player->pos.y, currentLedge->y); */
-	if(player->state == JUMPING){
-		
-	}else if(currentLedge != NULL && abs(currentLedge->y - player->pos.y) < 6){
-		
+	if(player->state == JUMPING || collidingBelow(world->ledges, player)){
+		/* do nothing */
 	}else{
 		player->pos = add(player->pos, player->vel);
 	}
+		
 	
 
 }
