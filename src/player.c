@@ -172,7 +172,7 @@ void playerUpdate(void *playerParam){
 	/* printf("player->pos.y = %d, ledge->y = %d\n", player->pos.y, currentLedge->y); */
 	if(player->state == JUMPING){
 		
-	}else if(currentLedge != NULL && abs(currentLedge->y - player->pos.y) < 5){
+	}else if(currentLedge != NULL && abs(currentLedge->y - player->pos.y) < 6){
 		
 	}else{
 		player->pos = add(player->pos, player->vel);
