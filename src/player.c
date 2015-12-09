@@ -46,16 +46,6 @@ int collidingBelow(List *ledges, struct Sprite *player){
 	return collidingBelow;
 }
 
-void makeBullet(int x, int y, int dx){
-	struct Bullet *bullet = malloc(sizeof(struct Bullet));
-	bullet->pos.x = x;
-	bullet->pos.y = y;
-	bullet->vel.x = dx;
-	bullet->vel.y = 0;
-
-	list_ins_next(bullets, list_tail(bullets), bullet);
-}
-
 void shoot(struct Sprite* sprite){
 	sprite->state = SHOOTING;
 	if(sprite->currentFrame == 4){
@@ -73,7 +63,7 @@ void shoot(struct Sprite* sprite){
 	}
 	int direction = (sprite->facing == LEFT)? -STEP_SIZE : STEP_SIZE;
 	dx = direction * 1.5;
-	makeBullet(x, y, dx);
+	makeBullet(bullets, x, y, dx);
 	SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Shooting.\n");
 }
 
