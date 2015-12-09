@@ -2,9 +2,7 @@
 #ifndef TEXTURE_H
 #include "texture.h"
 #endif
-#ifndef GEOMETRY_H
-#include "geometry.h"
-#endif
+#include "bullet.h"
 #include "sprite.h"
 
 #define PROXIMITY 300
