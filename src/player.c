@@ -165,8 +165,6 @@ void playerUpdate(void *playerParam){
 
 	}
 	
-	/* struct Ledge *currentLedge = findCollidingLedge(world->ledges, player); */
-	/* printf("player->pos.y = %d, ledge->y = %d\n", player->pos.y, currentLedge->y); */
 	if(player->state == JUMPING || collidingBelow(world->ledges, player)){
 		/* do nothing */
 	}else{
