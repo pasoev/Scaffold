@@ -131,9 +131,9 @@ void playerUpdate(void *playerParam){
 		player->currentFrame = 4;
 	}
 	
-	if(isKeyDown(SDL_SCANCODE_UP) && player->state != JUMPING){
+	if(isKeyDown(SDL_SCANCODE_UP) && player->state != JUMPING && collidingBelow(world->ledges, player)){
 		player->state = JUMPING;
-		player->vel.y = -30;
+		player->vel.y = -150;
 	}
 
 	if(isKeyDown(SDL_SCANCODE_SPACE)){
@@ -142,8 +142,7 @@ void playerUpdate(void *playerParam){
 		}
 	}
 
-	
-	if(player->state == JUMPING){
+	if(player->state == JUMPING && globalTime % 6 == 0){
 		struct Vec2d diff = subtract(player->vel, gravity);
 		player->vel = subtract(player->vel, gravity);
 		player->pos = add(player->pos, diff);
