@@ -41,7 +41,7 @@ int collidingBelow(List *ledges, struct Sprite *player){
 		struct Ledge *ledge = (struct Ledge *)list_data(elmt);
 		int ledgeY = ledge->y, ledgeLeftX = ledge->x, ledgeRightX = ledge->x + ledge->w;
 		if(playerRightX >= ledgeLeftX && playerLeftX <= ledgeRightX &&
-		   playerY >= ledgeY && playerY <= ledgeY + 5){
+		   playerY >= ledgeY && playerY <= ledgeY + 10){
 			collidingBelow = 1;
 		}
 	}
