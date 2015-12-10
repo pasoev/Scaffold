@@ -69,38 +69,8 @@ void shoot(struct Sprite* sprite){
 
 void updateBullets(List *bullets){
 	if(list_size(bullets) > 0){
-		/*
 		ListElmt *elmt = list_head(bullets);
-		struct Bullet *firstBullet = list_data(elmt);
-		firstBullet->pos = add(firstBullet->pos, firstBullet->vel);
-
-		if(firstBullet->pos.x > WINDOW_W || firstBullet->pos.x < 0){
-			list_rem_next(bullets, NULL, (void **)&firstBullet);
-			SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
-				    "Bullet disappeared. %d remaining.\n", list_size(bullets));
-			if(firstBullet != NULL){
-				free(firstBullet);
-			}
-		}
-
-		for(elmt = list_head(bullets); elmt != NULL &&
-			    !list_istail(elmt); elmt = list_next(elmt)){
-			struct Bullet *nextBullet = list_data(list_next(elmt));
-			nextBullet->pos = add(nextBullet->pos, nextBullet->vel);
-
-			if(nextBullet->pos.x > WINDOW_W || nextBullet->pos.x < 0){
-				list_rem_next(bullets, elmt, (void **)&nextBullet);
-				SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION,
-					    "Bullet disappeared. %d remaining.\n", list_size(bullets));
-				if(nextBullet != NULL){
-					free(nextBullet);
-				}
-			}
-		}
-		*/
-
-		ListElmt *elmt = list_head(bullets);
-		for(elmt = list_head(bullets); elmt != NULL; elmt = list_next(elmt)){
+		for(elmt = list_head(bullets); elmt != NULL && list_size(bullets) > 0; elmt = list_next(elmt)){
 			struct Bullet *nextBullet = list_data(elmt);
 			nextBullet->pos = add(nextBullet->pos, nextBullet->vel);
 			if(nextBullet->pos.x > WINDOW_W || nextBullet->pos.x < 0){
