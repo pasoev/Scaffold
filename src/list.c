@@ -102,3 +102,20 @@ int list_rem_next(List *list, ListElmt *element, void **data) {
 	list->size--;
 	return 0;
 }
+
+int list_rem(List *list, ListElmt *element, void **data) {
+	ListElmt *elmt;
+	
+	if(list_ishead(list, element)){
+		list_rem_next(list, NULL, data);
+	}
+	
+	for(elmt = list_head(list); elmt != NULL; elmt = list_next(elmt)){
+		if(list_next(elmt) == element){
+			list_rem_next(list, element, data);
+		}
+			
+	}
+
+	return 0;
+}
