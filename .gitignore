@@ -201,3 +201,9 @@ TAGS
 
 *.zip
 *.tar.gz
+
+
+# Eclipse
+.cproject
+.project
+.settings/
