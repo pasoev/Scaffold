@@ -105,7 +105,7 @@ int main(int argc, char* argv[]) {
 
 	list_init(&states, destroy);
 	tmpFSM = (struct GameStateMachine){
-		&states, &pushState, &changeState, &popState, &popAllStates
+		&states, pushState, changeState, popState, popAllStates
 	};
 	/* fsm = &(struct GameStateMachine){
 	   &states, &pushState, &changeState, &popState, &popAllStates
