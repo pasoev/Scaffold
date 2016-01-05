@@ -150,6 +150,7 @@ void playerUpdate(void *playerParam){
 	
 
 }
+
 void drawBullets(List *bullets, SDL_Renderer *renderer){
 	ListElmt *elmt;
 	for(elmt = list_head(bullets); elmt != NULL; elmt = list_next(elmt)){

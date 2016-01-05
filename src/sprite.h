@@ -41,7 +41,7 @@ enum movement_state{
 struct Sprite{
 	int w, h;
 	int hitPoints;
-	struct Vec2d pos, vel;
+	struct Vec2d pos, vel, accel;
 	enum direction facing;
 	void *texture;
 	int numFrames;

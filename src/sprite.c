@@ -8,6 +8,7 @@ int makeSprite(struct Sprite *sprite, int numFrames, int hitPoints,
 	       struct Vec2d pos, struct Vec2d vel){
 	((struct Sprite *)sprite)->pos = pos;
 	((struct Sprite *)sprite)->vel = vel;
+	((struct Sprite *)sprite)->accel = (struct Vec2d){0, 0};
 	((struct Sprite *)sprite)->texture = (void *)NULL;
 	((struct Sprite *)sprite)->numFrames = numFrames;
 	((struct Sprite *)sprite)->currentFrame = 1;
